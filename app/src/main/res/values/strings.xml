@@ -12,6 +12,14 @@
     <string name="addcemfab">addCemFAB</string>
     <string name="cem_name_hint">Cemetery Name</string>
     <string name="state_hint">State</string>
+    <string name="address">Address</string>
+    <string name="county">County</string>
+    <string name="description">Description</string>
+    <string name="townShip">Township</string>
+    <string name="cemRange">Cemetery Range</string>
+    <string name="cemSpot">Cemetery Spot</string>
+    <string name="cemSection">Cemetery Section</string>
+    <string name="cemFirstYear">Cemetery First Year</string>
 
     <string-array name="string_array_states">
         <item>Alabama</item>
