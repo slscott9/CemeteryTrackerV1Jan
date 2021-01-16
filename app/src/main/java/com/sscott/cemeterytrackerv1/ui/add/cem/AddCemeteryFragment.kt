@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.transition.TransitionInflater
 import com.sscott.cemeterytrackerv1.R
@@ -34,6 +35,13 @@ class AddCemeteryFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_cemetery, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val stateListAdapter = ArrayAdapter(requireContext(), R.layout.state_item, resources.getStringArray(R.array.string_array_states))
+        binding.tvStateList.setAdapter(stateListAdapter)
     }
 
 

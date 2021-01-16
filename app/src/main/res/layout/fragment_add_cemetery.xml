@@ -34,9 +34,10 @@
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/textInputLayoutCemName"
+                    android:id="@+id/tilLayoutCemName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    app:helperText="@string/cem_name_hint"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="16dp"
@@ -51,7 +52,27 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/textInputLayoutCemLocation"
+                    android:id="@+id/tilCemLocation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:helperText="@string/location"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilLayoutCemName">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etCemLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilState"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                    app:helperText="@string/state_hint"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -59,13 +80,18 @@
                     android:layout_marginEnd="16dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toBottomOf="@id/tilCemLocation">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etCemLocation"
+
+                    <AutoCompleteTextView
+                        android:id="@+id/tvStateList"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="wrap_content"
+                        android:inputType="none" />
+
                 </com.google.android.material.textfield.TextInputLayout>
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
