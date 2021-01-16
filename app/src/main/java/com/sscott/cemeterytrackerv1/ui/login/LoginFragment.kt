@@ -89,5 +89,9 @@ class LoginFragment : Fragment() {
         return currentEmail != Constants.NO_EMAIL && currentPassword != Constants.NO_PASSWORD
     }
 
+    private fun authenticateUser() {
+
+    }
+
 
 }

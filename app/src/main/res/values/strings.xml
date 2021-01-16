@@ -8,4 +8,6 @@
     <string name="register">Register</string>
     <string name="welcome_to_cemetery_tracker">Welcome to Cemetery Tracker</string>
     <string name="cemeteries">Cemeteries</string>
+    <string name="location">Location</string>
+    <string name="addcemfab">addCemFAB</string>
 </resources>

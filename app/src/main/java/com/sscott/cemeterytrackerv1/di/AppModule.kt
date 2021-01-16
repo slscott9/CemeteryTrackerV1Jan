@@ -75,7 +75,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideBasicAuthInterceptor() = BasicAuthInterceptor()
+    fun provideBasicAuthInterceptor(sharedPreferences: SharedPreferences) = BasicAuthInterceptor(sharedPreferences)
 
     @Singleton
     @Provides

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sscott.cemeterytrackerv1.R
@@ -44,6 +45,21 @@ class HomeFragment : Fragment() {
         }.attach()
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.fabAddCem.setOnClickListener{
+            val extras = FragmentNavigatorExtras(binding.fabAddCem to "end_transition_from_fab")
+
+            findNavController().navigate(
+                R.id.action_homeFragment_to_addCemeteryFragment,
+                null,
+                null,
+                extras
+            )
+        }
     }
 
     fun getTabTitle(position : Int): String {

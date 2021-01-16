@@ -20,16 +20,14 @@
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
+                    app:contentInsetStart="0dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:background="?attr/colorPrimary"
-                    app:titleTextColor="@color/white">
+                    android:background="?attr/colorPrimary">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingEnd="8dp"
                         android:gravity="center"
                         android:text="@string/cemeteries"
                         android:textAlignment="center"
@@ -50,7 +48,20 @@
             android:id="@+id/cemViewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        </androidx.viewpager2.widget.ViewPager2>
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAddCem"
+            android:transitionName="fab_start_transition"
+            android:layout_margin="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:src="@drawable/ic_baseline_add_24"
+            android:contentDescription="@string/addcemfab" />
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

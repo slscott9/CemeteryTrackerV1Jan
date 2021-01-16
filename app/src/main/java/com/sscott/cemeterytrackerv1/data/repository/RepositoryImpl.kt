@@ -1,7 +1,9 @@
 package com.sscott.cemeterytrackerv1.data.repository
 
 import com.sscott.cemeterytrackerv1.data.local.datasource.LocalDataSource
+import com.sscott.cemeterytrackerv1.data.models.network.CemeteryDto
 import com.sscott.cemeterytrackerv1.data.models.network.UserDto
+import com.sscott.cemeterytrackerv1.data.models.network.asDomainModels
 import com.sscott.cemeterytrackerv1.data.remote.datasource.RemoteDataSource
 import com.sscott.cemeterytrackerv1.other.Resource
 import com.sscott.cemeterytrackerv1.other.ResponseHandler
@@ -29,6 +31,14 @@ class RepositoryImpl @Inject constructor(
         try {
             responseHandler.handleSuccess(remoteDataSource.register(userDto))
         }catch (e : Exception){
+            responseHandler.handleException(e)
+        }
+    }
+
+    override suspend fun allCemeteries() = withContext(Dispatchers.IO){
+        try {
+            responseHandler.handleSuccess(remoteDataSource.allCemeteries().asDomainModels())
+        }catch (e :Exception){
             responseHandler.handleException(e)
         }
     }
