@@ -13,5 +13,8 @@ interface Repository {
 
     suspend fun allCemeteries() : Resource<List<CemeteryDomain>>
 
+    suspend fun sendCemToNetwork(cemeteryDto: CemeteryDto) : Resource<CemeteryDto>
+
+
 
 }

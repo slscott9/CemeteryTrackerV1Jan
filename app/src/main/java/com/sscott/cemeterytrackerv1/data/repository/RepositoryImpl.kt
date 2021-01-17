@@ -42,4 +42,12 @@ class RepositoryImpl @Inject constructor(
             responseHandler.handleException(e)
         }
     }
+
+    override suspend fun sendCemToNetwork(cemeteryDto: CemeteryDto) = withContext(Dispatchers.IO){
+        try {
+            responseHandler.handleSuccess(remoteDataSource.sendCemToNetwork(cemeteryDto))
+        }catch (e : Exception){
+            responseHandler.handleException(e)
+        }
+    }
 }

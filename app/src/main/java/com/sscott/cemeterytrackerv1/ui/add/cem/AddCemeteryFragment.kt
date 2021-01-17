@@ -30,6 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_add_cemetery.*
 import timber.log.Timber
 import java.util.*
+import javax.inject.Inject
 
 
 private const val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34

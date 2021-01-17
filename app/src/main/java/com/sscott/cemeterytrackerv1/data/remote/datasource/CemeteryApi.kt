@@ -17,6 +17,9 @@ interface CemeteryApi {
     @GET("/api/v1/cemeteries")
     suspend fun allCemeteries() : List<CemeteryDto>
 
+    @POST("/api/v1/cemetery")
+    suspend fun sendCemToNetwork(cemeteryDto: CemeteryDto) : CemeteryDto
+
 
 
 }

@@ -21,4 +21,8 @@ class RemoteDataSourceImpl @Inject constructor(
     override suspend fun allCemeteries(): List<CemeteryDto> {
         return cemeteryApi.allCemeteries()
     }
+
+    override suspend fun sendCemToNetwork(cemeteryDto: CemeteryDto): CemeteryDto {
+        return sendCemToNetwork(cemeteryDto)
+    }
 }

@@ -15,8 +15,13 @@ data class CemeteryDto(
     val cemSection : String,
     val epochTimeAdded : Long,
     val addedBy : String,
-    val graveCount : Int
+    val graveCount : Int,
+    val graves : List<GravetDto>
 )
+
+/*
+    NEED TO THINK OF A CACHING STRATEGY MAYBE SAVE LOCALLY AND GIVE THE OPTION TO REFRESH WITH SWIPE
+ */
 
 
 fun List<CemeteryDto>.asDomainModels() : List<CemeteryDomain> {
