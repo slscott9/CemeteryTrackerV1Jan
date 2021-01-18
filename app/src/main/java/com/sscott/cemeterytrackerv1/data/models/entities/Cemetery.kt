@@ -1,12 +1,14 @@
 package com.sscott.cemeterytrackerv1.data.models.entities
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.Relation
 
-@Entity
+@Entity(tableName = "cemetery_v1_table")
 data class Cemetery(
-    @PrimaryKey
-    val cemeteryId : Long,
+    @PrimaryKey(autoGenerate = true)
+    val cemeteryId : Long = 0,
     val name : String,
     val location : String,
     val state : String,
@@ -19,5 +21,14 @@ data class Cemetery(
     val epochTimeAdded : Long,
     val addedBy : String,
     val graveCount : Int
+)
+
+data class CemeteryGraves(
+    @Embedded val cemetery: Cemetery,
+    @Relation(
+        parentColumn = "cemeteryId",
+        entityColumn = "cemeteryId",
+    )
+    val graves: List<Grave>
 )
 

@@ -74,6 +74,11 @@
         <action
             android:id="@+id/action_addCemeteryFragment_to_cemeteryDetailFragment"
             app:destination="@id/cemeteryDetailFragment" />
+        <action
+            android:id="@+id/action_addCemeteryFragment_to_recentlyAddedCemFragment"
+            app:destination="@id/recentlyAddedCemFragment"
+            app:popUpTo="@id/addCemeteryFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/addGraveFragment"
@@ -84,4 +89,9 @@
             android:id="@+id/action_addGraveFragment_to_graveDetailFragment"
             app:destination="@id/graveDetailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/recentlyAddedCemFragment"
+        android:name="com.sscott.cemeterytrackerv1.ui.recentlyaddedcems.RecentlyAddedCemFragment"
+        android:label="fragment_recently_added_cem"
+        tools:layout="@layout/fragment_recently_added_cem" />
 </navigation>

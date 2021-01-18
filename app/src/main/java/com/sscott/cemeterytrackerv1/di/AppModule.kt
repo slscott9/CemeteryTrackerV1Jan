@@ -1,5 +1,6 @@
 package com.sscott.cemeterytrackerv1.di
 
+import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
@@ -69,8 +70,12 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideRepo(remoteDataSource: RemoteDataSource, localDataSource: LocalDataSource, responseHandler: ResponseHandler): Repository
-        = RepositoryImpl(remoteDataSource, localDataSource, responseHandler)
+    fun provideRepo(
+        remoteDataSource: RemoteDataSource,
+        localDataSource: LocalDataSource,
+        responseHandler: ResponseHandler,
+        context : Application
+    ): Repository = RepositoryImpl(remoteDataSource, localDataSource, responseHandler, context)
 
 
     @Singleton

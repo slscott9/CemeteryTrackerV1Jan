@@ -1,9 +1,9 @@
 package com.sscott.cemeterytrackerv1.data.repository
 
+import android.content.Context
 import com.sscott.cemeterytrackerv1.data.local.datasource.LocalDataSource
-import com.sscott.cemeterytrackerv1.data.models.network.CemeteryDto
-import com.sscott.cemeterytrackerv1.data.models.network.UserDto
-import com.sscott.cemeterytrackerv1.data.models.network.asDomainModels
+import com.sscott.cemeterytrackerv1.data.models.domain.Sync
+import com.sscott.cemeterytrackerv1.data.models.network.*
 import com.sscott.cemeterytrackerv1.data.remote.datasource.RemoteDataSource
 import com.sscott.cemeterytrackerv1.other.Resource
 import com.sscott.cemeterytrackerv1.other.ResponseHandler
@@ -16,7 +16,8 @@ import kotlin.Exception
 class RepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
-    private val responseHandler: ResponseHandler
+    private val responseHandler: ResponseHandler,
+    context : Context
 )  : Repository{
 
     override suspend fun login(userDto: UserDto): Resource<UserDto> = withContext(Dispatchers.IO){
@@ -43,11 +44,23 @@ class RepositoryImpl @Inject constructor(
         }
     }
 
+    /*
+        on a failure of adding cemetery to server, insert cemetery into local db to be sent to network through work manager
+
+     */
     override suspend fun sendCemToNetwork(cemeteryDto: CemeteryDto) = withContext(Dispatchers.IO){
         try {
             responseHandler.handleSuccess(remoteDataSource.sendCemToNetwork(cemeteryDto))
         }catch (e : Exception){
+            localDataSource.insertCemetery(cemeteryDto.asDatabaseModel())
             responseHandler.handleException(e)
         }
+    }
+
+    override suspend fun getMostRecentTimes(): Sync {
+        return Sync(
+            mostRecentLocalInsert = localDataSource.getMostRecentLocalInsert(),
+            mostRecentServerInsert = remoteDataSource.getMostRecentServerInsert()
+        )
     }
 }

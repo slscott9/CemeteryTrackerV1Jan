@@ -20,6 +20,7 @@
     <string name="cemSpot">Cemetery Spot</string>
     <string name="cemSection">Cemetery Section</string>
     <string name="cemFirstYear">Cemetery First Year</string>
+    <string name="add_cemetery">Add Cemetery</string>
 
     <string-array name="string_array_states">
         <item>Alabama</item>

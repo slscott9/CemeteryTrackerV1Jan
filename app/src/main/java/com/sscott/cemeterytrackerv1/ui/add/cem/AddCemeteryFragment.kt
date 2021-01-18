@@ -7,30 +7,45 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.location.SettingInjectorService
+import android.net.ConnectivityManager
+import android.net.Network
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
 import android.provider.Settings
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import androidx.transition.TransitionInflater
 import com.google.android.material.snackbar.Snackbar
 import com.sscott.cemeterytrackerv1.BuildConfig
 import com.sscott.cemeterytrackerv1.R
+import com.sscott.cemeterytrackerv1.data.models.network.CemeteryDto
 import com.sscott.cemeterytrackerv1.databinding.FragmentAddCemeteryBinding
 import com.sscott.cemeterytrackerv1.location.ForeGroundLocationService
+import com.sscott.cemeterytrackerv1.other.Constants
+import com.sscott.cemeterytrackerv1.other.Status
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_add_cemetery.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
+import java.lang.Exception
+import java.time.OffsetDateTime
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 
 private const val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
@@ -43,6 +58,10 @@ class AddCemeteryFragment : Fragment() {
     private lateinit var foregroundBroadcastReceiver : ForegroundBroadcastReceiver
     private var foregroundOnlyLocationServiceBound = false
     private lateinit var geoCoder : Geocoder
+    private val viewModel: AddCemViewModel by viewModels()
+    @Inject
+    lateinit var sharedPreferences : SharedPreferences
+
 
 
     // Monitors connection to the while-in-use service.
@@ -80,11 +99,77 @@ class AddCemeteryFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_cemetery, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
+
+        viewModel.cemeteryResponse.observe(viewLifecycleOwner){
+            it?.let {
+                when(it.status){
+                    Status.SUCCESS -> {
+                        binding.pbLocation.visibility = View.GONE
+
+                        val option = NavOptions.Builder()
+                            .setPopUpTo(R.id.addCemeteryFragment, true)
+                            .build()
+                        findNavController().navigate(AddCemeteryFragmentDirections.actionAddCemeteryFragmentToRecentlyAddedCemFragment(), option)
+
+                        //go to recently added cemetery fragment
+                    }
+                    Status.ERROR -> {
+                        binding.pbLocation.visibility = View.GONE
+                        Toast.makeText(requireContext(), "No network connection cemetery will be sent to server later", Toast.LENGTH_LONG).show()
+
+                        //pops AddCemFragment off backstack leaving HomeFragment -> RecentlyAddCems on backstack
+                        val option = NavOptions.Builder()
+                            .setPopUpTo(R.id.addCemeteryFragment, true)
+                            .build()
+                        findNavController().navigate(AddCemeteryFragmentDirections.actionAddCemeteryFragmentToRecentlyAddedCemFragment(), option)
+                    }
+                    Status.LOADING -> {
+                        binding.pbLocation.visibility = View.VISIBLE
+
+                    }
+                }
+            }
+        }
         return binding.root
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+        binding.addCemToolbar.setOnMenuItemClickListener {
+            when(it.itemId){
+                R.id.addCemItem -> {
+
+                    if(binding.etCemName.text.isNullOrBlank()){
+                        Toast.makeText(requireContext(), "Please enter a name for the cemetery.", Toast.LENGTH_SHORT).show()
+                    }else{
+                        viewModel.sendCemsToServer(
+                            CemeteryDto(
+                                name = binding.etCemName.text.toString(),
+                                location = binding.etCemAddress.text.toString(),
+                                state = binding.tvStateList.text.toString(),
+                                county = binding.etCemCounty.text.toString(),
+                                townShip = binding.etCemTownShip.text.toString(),
+                                cemRange = binding.etCemRange.text.toString(),
+                                spot = binding.etCemSpot.text.toString(),
+                                firstYear = binding.etCemFirstYear.text.toString(),
+                                cemSection = binding.etCemSection.text.toString(),
+                                epochTimeAdded = OffsetDateTime.now().toEpochSecond(),
+                                addedBy = sharedPreferences.getString(Constants.USER_NAME, Constants.NO_USERNAME) ?: "",
+                                graveCount = 0,
+                                graves = emptyList(),
+                                cemeteryId = 0 //if sending to server fails insert into database (auto generate cemeteryId)
+                            ))
+                    }
+                    true
+                }
+                else -> false
+
+            }
+        }
 
         val stateListAdapter = ArrayAdapter(requireContext(), R.layout.state_item, resources.getStringArray(R.array.string_array_states))
         binding.tvStateList.setAdapter(stateListAdapter)
@@ -101,6 +186,9 @@ class AddCemeteryFragment : Fragment() {
             }
         }
     }
+
+
+
 
     override fun onStart() {
         super.onStart()
@@ -133,20 +221,39 @@ class AddCemeteryFragment : Fragment() {
         super.onStop()
     }
 
+
+
+
     private inner class ForegroundBroadcastReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val location = intent?.getParcelableExtra<Location>(
                 ForeGroundLocationService.EXTRA_LOCATION
             )
+            Timber.i(location.toString())
 
             Timber.i("in onReceive of broadcase receiver")
             binding.pbLocation.visibility = View.GONE
+
+            val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
             if(location != null){
                 geoCoder = Geocoder(requireActivity(), Locale.getDefault())
-                val addressList = geoCoder.getFromLocation(location.latitude, location.longitude, 1)
-                binding.etCemAddress.setText(addressList[0].getAddressLine(0).toString())
-                binding.tvStateList.setText(addressList[0].adminArea.toString())
 
+                var addressList: MutableList<Address?>? = null
+
+                try {
+                    addressList = geoCoder.getFromLocation(location.latitude, location.longitude, 1)
+                }catch (e : Exception){
+                    e.printStackTrace()
+                }
+
+                //Handle case when there is no network access (address list will be null)
+                if(addressList?.get(0) != null){
+                    binding.etCemAddress.setText(addressList.get(0)?.getAddressLine(0).toString())
+                    binding.tvStateList.setText(addressList.get(0)?.adminArea.toString())
+                }else{
+                    Toast.makeText(requireContext(), "Could not access location.", Toast.LENGTH_SHORT).show()
+                }
             }else{
                 Snackbar.make(
                     binding.root,

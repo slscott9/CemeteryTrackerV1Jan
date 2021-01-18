@@ -106,4 +106,9 @@ dependencies {
     //Location
     implementation 'com.google.android.gms:play-services-location:17.1.0'
 
+
+    //Work manager
+    implementation "androidx.work:work-runtime-ktx:$versions_work"
+    implementation "com.jakewharton.timber:timber:$version_timber"
+
 }

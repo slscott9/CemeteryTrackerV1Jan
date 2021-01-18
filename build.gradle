@@ -16,6 +16,9 @@ buildscript {
 
         lifecycle_version = "2.2.0"
 
+        versions_work = "2.4.0"
+
+
 
 
     }

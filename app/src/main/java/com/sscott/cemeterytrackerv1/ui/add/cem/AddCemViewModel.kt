@@ -1,6 +1,7 @@
 package com.sscott.cemeterytrackerv1.ui.add.cem
 
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,11 +15,21 @@ class AddCemViewModel @ViewModelInject constructor(
 ) : ViewModel() {
 
     private val _cemeteryResponse = MutableLiveData<Resource<CemeteryDto>>()
+    val cemeteryResponse : LiveData<Resource<CemeteryDto>> = _cemeteryResponse
 
     fun sendCemsToServer(cemeteryDto: CemeteryDto) {
 
+        _cemeteryResponse.postValue(Resource.loading(null))
+
         viewModelScope.launch {
-            repository.sendCemToNetwork(cemeteryDto)
+            _cemeteryResponse.postValue(
+                repository.sendCemToNetwork(cemeteryDto)
+            )
         }
+
+    }
+
+    fun resetCemResponse() {
+        _cemeteryResponse.value = null
     }
 }

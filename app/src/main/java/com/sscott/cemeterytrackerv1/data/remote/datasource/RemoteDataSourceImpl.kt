@@ -23,6 +23,10 @@ class RemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun sendCemToNetwork(cemeteryDto: CemeteryDto): CemeteryDto {
-        return sendCemToNetwork(cemeteryDto)
+        return cemeteryApi.sendCemToNetwork(cemeteryDto)
+    }
+
+    override suspend fun getMostRecentServerInsert(): Long {
+        return cemeteryApi.getMostRecentServerInsert()
     }
 }

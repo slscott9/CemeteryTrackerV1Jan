@@ -20,6 +20,10 @@ interface CemeteryApi {
     @POST("/api/v1/cemetery")
     suspend fun sendCemToNetwork(cemeteryDto: CemeteryDto) : CemeteryDto
 
+    @GET("/api/v1/cemetery/sync")
+    suspend fun getMostRecentServerInsert() : Long
+
+
 
 
 }

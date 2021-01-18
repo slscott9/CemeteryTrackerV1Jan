@@ -15,6 +15,8 @@
             android:layout_height="?actionBarSize">
 
             <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/addCemToolbar"
+                app:menu="@menu/addcem_menu"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:title="Add Cemetery"
@@ -220,6 +222,7 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etCemFirstYear"
+                        android:inputType="numberSigned"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
                 </com.google.android.material.textfield.TextInputLayout>
