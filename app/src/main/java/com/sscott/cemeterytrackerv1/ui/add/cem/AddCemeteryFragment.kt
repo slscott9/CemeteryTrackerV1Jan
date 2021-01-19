@@ -61,9 +61,7 @@ class AddCemeteryFragment : Fragment() {
     private val viewModel: AddCemViewModel by viewModels()
     @Inject
     lateinit var sharedPreferences : SharedPreferences
-
-
-
+    
     // Monitors connection to the while-in-use service.
     private val foregroundOnlyServiceConnection = object : ServiceConnection {
 
@@ -148,6 +146,7 @@ class AddCemeteryFragment : Fragment() {
                     }else{
                         viewModel.sendCemsToServer(
                             CemeteryDto(
+                                cemeteryId = UUID.randomUUID().mostSignificantBits,
                                 name = binding.etCemName.text.toString(),
                                 location = binding.etCemAddress.text.toString(),
                                 state = binding.tvStateList.text.toString(),
@@ -161,7 +160,6 @@ class AddCemeteryFragment : Fragment() {
                                 addedBy = sharedPreferences.getString(Constants.USER_NAME, Constants.NO_USERNAME) ?: "",
                                 graveCount = 0,
                                 graves = emptyList(),
-                                cemeteryId = 0 //if sending to server fails insert into database (auto generate cemeteryId)
                             ))
                     }
                     true

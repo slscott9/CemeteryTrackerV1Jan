@@ -21,8 +21,8 @@ import androidx.room.PrimaryKey
     )
 ))
 data class Grave(
-    @PrimaryKey(autoGenerate = true)
-    val graveId : Long = 0,
+    @PrimaryKey
+    val graveId : Long,
     val cemeteryId: Long,
     val firstName: String,
     val lastName : String,

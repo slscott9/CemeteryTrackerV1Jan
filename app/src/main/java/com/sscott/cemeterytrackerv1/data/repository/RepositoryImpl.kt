@@ -3,6 +3,7 @@ package com.sscott.cemeterytrackerv1.data.repository
 import android.content.Context
 import com.sscott.cemeterytrackerv1.data.local.datasource.LocalDataSource
 import com.sscott.cemeterytrackerv1.data.models.domain.Sync
+import com.sscott.cemeterytrackerv1.data.models.entities.CemeteryGraves
 import com.sscott.cemeterytrackerv1.data.models.network.*
 import com.sscott.cemeterytrackerv1.data.remote.datasource.RemoteDataSource
 import com.sscott.cemeterytrackerv1.other.Resource
@@ -62,5 +63,17 @@ class RepositoryImpl @Inject constructor(
             mostRecentLocalInsert = localDataSource.getMostRecentLocalInsert(),
             mostRecentServerInsert = remoteDataSource.getMostRecentServerInsert()
         )
+    }
+
+    override suspend fun unSyncedCemeteries(mostRecentServerInsert: Long): List<CemeteryGraves> {
+        return localDataSource.unSyncedCemeteries(mostRecentServerInsert)
+    }
+
+    override suspend fun sendUnsyncedCemeteries(unsyncedCemeteries: List<CemeteryDto>): Resource<List<CemeteryDto>> {
+        return try {
+            responseHandler.handleSuccess(remoteDataSource.sendUnsyncedCemeteries(unsyncedCemeteries))
+        }catch (e : Exception){
+            responseHandler.handleException(e)
+        }
     }
 }

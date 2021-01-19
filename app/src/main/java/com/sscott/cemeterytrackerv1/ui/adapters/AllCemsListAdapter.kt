@@ -23,7 +23,7 @@ class AllCemsListAdapter(val listener: (cem: CemeteryDomain) -> Unit) : ListAdap
     class ViewHolder(val binding : CemListItemBinding) : RecyclerView.ViewHolder(binding.root){
 
         fun bind(cem: CemeteryDomain){
-
+            binding.cemetery = cem
         }
     }
 

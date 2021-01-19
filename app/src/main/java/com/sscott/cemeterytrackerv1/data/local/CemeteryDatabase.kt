@@ -6,7 +6,7 @@ import com.sscott.cemeterytrackerv1.data.local.datasource.CemeteryDao
 import com.sscott.cemeterytrackerv1.data.models.entities.Cemetery
 import com.sscott.cemeterytrackerv1.data.models.entities.Grave
 
-@Database(entities = [Cemetery::class, Grave::class], version = 2)
+@Database(entities = [Cemetery::class, Grave::class], version = 3)
 abstract class CemeteryDatabase : RoomDatabase() {
 
     abstract fun cemeteryDao(): CemeteryDao

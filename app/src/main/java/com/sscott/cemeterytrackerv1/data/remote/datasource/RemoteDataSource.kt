@@ -17,4 +17,7 @@ interface RemoteDataSource {
 
     suspend fun getMostRecentServerInsert() : Long
 
+    suspend fun sendUnsyncedCemeteries(unsyncedCemeteries : List<CemeteryDto>) : List<CemeteryDto>
+
+
 }

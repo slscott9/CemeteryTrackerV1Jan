@@ -24,7 +24,7 @@ class MyCemsListAdapter(val listener: MyCemsListener) : ListAdapter<CemeteryDoma
     class ViewHolder(val binding : CemListItemBinding) : RecyclerView.ViewHolder(binding.root){
 
         fun bind(cemeteryDomain: CemeteryDomain){
-
+            binding.cemetery = cemeteryDomain
         }
     }
 

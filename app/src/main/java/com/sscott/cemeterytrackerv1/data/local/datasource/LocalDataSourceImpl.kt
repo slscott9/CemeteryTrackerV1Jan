@@ -19,6 +19,6 @@ class LocalDataSourceImpl @Inject constructor(
     }
 
     override suspend fun unSyncedCemeteries(mostRecentServerInsert: Long): List<CemeteryGraves> {
-        TODO("Not yet implemented")
+        return dao.unSyncedCemeteries(mostRecentServerInsert)
     }
 }

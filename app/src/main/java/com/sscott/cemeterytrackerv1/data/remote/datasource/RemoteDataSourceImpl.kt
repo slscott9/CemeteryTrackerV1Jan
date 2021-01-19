@@ -29,4 +29,8 @@ class RemoteDataSourceImpl @Inject constructor(
     override suspend fun getMostRecentServerInsert(): Long {
         return cemeteryApi.getMostRecentServerInsert()
     }
+
+    override suspend fun sendUnsyncedCemeteries(unsyncedCemeteries: List<CemeteryDto>): List<CemeteryDto> {
+        return cemeteryApi.sendUnsyncedCemeteries(unsyncedCemeteries)
+    }
 }

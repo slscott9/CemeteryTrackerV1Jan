@@ -37,6 +37,8 @@ class AllCemeteriesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
         binding.swipeRefreshAllCems.setOnRefreshListener {
             viewModel.refreshCemsList()
         }
@@ -52,10 +54,12 @@ class AllCemeteriesFragment : Fragment() {
                 when(it.status){
                     Status.SUCCESS -> {
                         binding.progressBarAllCems.visibility = View.GONE
+                        binding.swipeRefreshAllCems.isRefreshing = false
                         allCemsListAdapter.submitList(it.data)
                     }
                     Status.ERROR -> {
                         binding.progressBarAllCems.visibility = View.GONE
+                        binding.swipeRefreshAllCems.isRefreshing = false
                         Toast.makeText(requireActivity(), it.message, Toast.LENGTH_SHORT).show()
                     }
                     Status.LOADING -> {

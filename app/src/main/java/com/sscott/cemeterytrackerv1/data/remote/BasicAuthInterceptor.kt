@@ -9,6 +9,7 @@ import com.sscott.cemeterytrackerv1.other.Constants.NO_USERNAME
 import okhttp3.Credentials
 import okhttp3.Interceptor
 import okhttp3.Response
+import timber.log.Timber
 import javax.inject.Inject
 
 /*
@@ -19,18 +20,25 @@ import javax.inject.Inject
 
 
  */
-class BasicAuthInterceptor @Inject constructor(
-    private val sharedPreferences: SharedPreferences
+class BasicAuthInterceptor @Inject constructor (
+    sharedPreferences: SharedPreferences
 ) : Interceptor {
 
     var userName : String? = sharedPreferences.getString(KEY_LOGGED_IN_USERNAME, NO_USERNAME)
     var password: String? = sharedPreferences.getString(KEY_PASSWORD, NO_PASSWORD)
+
+//    var userName : String? = null
+//    var password: String? = null
+
+
 
     /*
         If the http request is one of the IGNORE_AUTH_URLS then we dont authenticate that request
      */
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
+
+        Timber.i(userName + password)
 
         if(request.url.encodedPath in IGNORE_AUTH_URLS){
             return chain.proceed(request)

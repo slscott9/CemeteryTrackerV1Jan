@@ -7,8 +7,8 @@ import androidx.room.Relation
 
 @Entity(tableName = "cemetery_v1_table")
 data class Cemetery(
-    @PrimaryKey(autoGenerate = true)
-    val cemeteryId : Long = 0,
+    @PrimaryKey
+    val cemeteryId : Long,
     val name : String,
     val location : String,
     val state : String,

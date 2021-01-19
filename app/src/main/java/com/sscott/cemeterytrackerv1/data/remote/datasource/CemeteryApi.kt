@@ -23,6 +23,10 @@ interface CemeteryApi {
     @GET("/api/v1/cemetery/sync")
     suspend fun getMostRecentServerInsert() : Long
 
+    @POST("/api/v1/cemeteries/add")
+    suspend fun sendUnsyncedCemeteries(unsyncedCemeteries : List<CemeteryDto>) : List<CemeteryDto>
+
+
 
 
 
