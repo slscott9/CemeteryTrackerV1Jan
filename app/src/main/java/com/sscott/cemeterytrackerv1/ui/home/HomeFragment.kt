@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
@@ -26,6 +28,7 @@ import javax.inject.Inject
 class HomeFragment : Fragment() {
 
     private lateinit var binding : FragmentHomeBinding
+    private val viewModel : HomeFragmentViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,7 +63,17 @@ class HomeFragment : Fragment() {
                 extras
             )
         }
+
+        binding.swipeRefreshCemeteries.setOnRefreshListener {
+
+            viewModel.refreshCemeteries()
+            binding.swipeRefreshCemeteries.isRefreshing = false
+
+        }
+
+
     }
+
 
     fun getTabTitle(position : Int): String {
         return when(position){

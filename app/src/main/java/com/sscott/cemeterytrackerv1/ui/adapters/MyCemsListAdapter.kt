@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sscott.cemeterytrackerv1.data.models.domain.CemeteryDomain
 import com.sscott.cemeterytrackerv1.databinding.CemListItemBinding
 
-class MyCemsListAdapter(val listener: MyCemsListener) : ListAdapter<CemeteryDomain, MyCemsListAdapter.ViewHolder>(DiffUtilCallback()) {
+class MyCemsListAdapter(listener: (cem: CemeteryDomain) -> Unit) : ListAdapter<CemeteryDomain, MyCemsListAdapter.ViewHolder>(DiffUtilCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

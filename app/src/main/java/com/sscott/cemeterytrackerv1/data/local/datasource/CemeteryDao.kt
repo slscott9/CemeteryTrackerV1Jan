@@ -17,6 +17,6 @@ interface CemeteryDao {
     suspend fun getMostRecentLocalInsert() : Long
 
     @Transaction
-    @Query("select * from cemetery_v1_table where epochTimeAdded < :mostRecentServerInsert")
+    @Query("select * from cemetery_v1_table where epochTimeAdded > :mostRecentServerInsert")
     suspend fun unSyncedCemeteries(mostRecentServerInsert : Long) : List<CemeteryGraves>
 }

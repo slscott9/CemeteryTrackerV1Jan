@@ -18,12 +18,17 @@ class CemeteryRefreshWorker @WorkerInject constructor(
 
     //default is Dispatchers.Default
 
+    /*
+        Should be a cemetery in the database
+        local insert > server insert(1)
+     */
+
     companion object {
-        const val CEMETERY_WORKER = "CEMETERY_WORKER"
+        const val CEMETERY_WORKER = "CEM_REFRESH_WORKER_V1"
     }
     override suspend fun doWork(): Result {
         Timber.i("doWork() called")
-        try {
+        return try {
             val syncInfo = repository.getMostRecentTimes()
 
             if(syncInfo.mostRecentLocalInsert > syncInfo.mostRecentServerInsert){
@@ -33,12 +38,12 @@ class CemeteryRefreshWorker @WorkerInject constructor(
 
                 repository.sendUnsyncedCemeteries(unsyncedCemeteries.asNetworkModelList())
             }
+            Result.success()
         }catch (e : Exception){
             Timber.i("Work failed $e")
-            return Result.retry()
+            Result.retry()
         }
 
-        Timber.i("Work is finished returning Result.success()")
-        return Result.success()
+//        Timber.i("Work is finished returning Result.success()")
     }
 }

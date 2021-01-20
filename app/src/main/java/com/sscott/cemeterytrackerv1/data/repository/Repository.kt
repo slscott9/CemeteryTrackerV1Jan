@@ -17,6 +17,8 @@ interface Repository {
     //insert and get cems
     suspend fun allCemeteries(): Resource<List<CemeteryDomain>>
 
+    suspend fun myCemeteries(userName : String): Resource<List<CemeteryDomain>>
+
     suspend fun sendCemToNetwork(cemeteryDto: CemeteryDto): Resource<CemeteryDto>
 
 

@@ -8,7 +8,7 @@ import com.sscott.cemeterytrackerv1.data.models.entities.Grave
 
 
 data class CemeteryDto(
-    val cemeteryId : Long?,
+    val id : Long?,
     val name : String?,
     val location : String?,
     val state : String?,
@@ -32,7 +32,7 @@ data class CemeteryDto(
 fun List<CemeteryGraves>.asNetworkModelList() : List<CemeteryDto>{
     return map {
         CemeteryDto(
-            cemeteryId = it.cemetery.cemeteryId,
+            id = it.cemetery.cemeteryId,
             name = it.cemetery.name,
             location = it.cemetery.location,
             state = it.cemetery.state,
@@ -74,8 +74,8 @@ fun List<Grave>.asNetworkModels() : List<GravetDto>{
 fun List<CemeteryDto>.asDomainModels() : List<CemeteryDomain> {
     return map {
         CemeteryDomain(
-            cemeteryId = it.cemeteryId!!,
-            name = it.name!!,
+            cemeteryId = it.id!!,
+            name = it.name ?: "",
             location = it.location ?: "",
             state = it.state ?: "",
             county = it.county ?: "",
@@ -94,7 +94,7 @@ fun List<CemeteryDto>.asDomainModels() : List<CemeteryDomain> {
 fun List<CemeteryDto>.asDatabaseModels() : List<Cemetery> {
     return map {
         Cemetery(
-            cemeteryId = it.cemeteryId ?: 0,
+            cemeteryId = it.id ?: 0,
             name = it.name!!,
             location = it.location ?: "",
             state = it.state ?: "",
@@ -117,7 +117,7 @@ fun List<CemeteryDto>.asDatabaseModels() : List<Cemetery> {
  */
 fun CemeteryDto.asDatabaseModel() : Cemetery {
     return Cemetery(
-        cemeteryId = cemeteryId ?: 0,
+        cemeteryId = id ?: 0,
         name = name!!,
         location = location ?: "",
         state = state ?: "",

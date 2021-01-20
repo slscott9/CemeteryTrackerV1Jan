@@ -2,6 +2,7 @@ package com.sscott.cemeterytrackerv1.data.repository
 
 import android.content.Context
 import com.sscott.cemeterytrackerv1.data.local.datasource.LocalDataSource
+import com.sscott.cemeterytrackerv1.data.models.domain.CemeteryDomain
 import com.sscott.cemeterytrackerv1.data.models.domain.Sync
 import com.sscott.cemeterytrackerv1.data.models.entities.CemeteryGraves
 import com.sscott.cemeterytrackerv1.data.models.network.*
@@ -10,6 +11,7 @@ import com.sscott.cemeterytrackerv1.other.Resource
 import com.sscott.cemeterytrackerv1.other.ResponseHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.Exception
 
@@ -41,14 +43,23 @@ class RepositoryImpl @Inject constructor(
         try {
             responseHandler.handleSuccess(remoteDataSource.allCemeteries().asDomainModels())
         }catch (e :Exception){
+            Timber.i("Error for allCemeteries() call $e")
+            responseHandler.handleException(e)
+        }
+    }
+
+    override suspend fun myCemeteries(userName : String) = withContext(Dispatchers.IO){
+        try {
+            responseHandler.handleSuccess(remoteDataSource.myCemeteries(userName).asDomainModels())
+        }catch (e :Exception){
             responseHandler.handleException(e)
         }
     }
 
     /*
-        on a failure of adding cemetery to server, insert cemetery into local db to be sent to network through work manager
+            on a failure of adding cemetery to server, insert cemetery into local db to be sent to network through work manager
 
-     */
+         */
     override suspend fun sendCemToNetwork(cemeteryDto: CemeteryDto) = withContext(Dispatchers.IO){
         try {
             responseHandler.handleSuccess(remoteDataSource.sendCemToNetwork(cemeteryDto))
@@ -73,6 +84,7 @@ class RepositoryImpl @Inject constructor(
         return try {
             responseHandler.handleSuccess(remoteDataSource.sendUnsyncedCemeteries(unsyncedCemeteries))
         }catch (e : Exception){
+            Timber.i("sendUnSyncedCems() repo function error occured $e")
             responseHandler.handleException(e)
         }
     }

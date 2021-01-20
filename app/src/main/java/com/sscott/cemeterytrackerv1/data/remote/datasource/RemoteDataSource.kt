@@ -13,6 +13,8 @@ interface RemoteDataSource {
 
     suspend fun allCemeteries() : List<CemeteryDto>
 
+    suspend fun myCemeteries(userName : String) : List<CemeteryDto>
+
     suspend fun sendCemToNetwork(cemeteryDto: CemeteryDto) : CemeteryDto
 
     suspend fun getMostRecentServerInsert() : Long

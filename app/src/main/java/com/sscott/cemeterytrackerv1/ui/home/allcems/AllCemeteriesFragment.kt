@@ -7,19 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sscott.cemeterytrackerv1.R
 import com.sscott.cemeterytrackerv1.databinding.FragmentAllCemeteriesBinding
 import com.sscott.cemeterytrackerv1.other.Status
 import com.sscott.cemeterytrackerv1.ui.adapters.AllCemsListAdapter
+import com.sscott.cemeterytrackerv1.ui.home.HomeFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AllCemeteriesFragment : Fragment() {
 
     private lateinit var binding : FragmentAllCemeteriesBinding
-    private val viewModel : AllCemsViewModel by viewModels()
+    private val viewModel : HomeFragmentViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,9 +41,7 @@ class AllCemeteriesFragment : Fragment() {
 
 
 
-        binding.swipeRefreshAllCems.setOnRefreshListener {
-            viewModel.refreshCemsList()
-        }
+
 
         val allCemsListAdapter = AllCemsListAdapter {
 
@@ -54,12 +54,10 @@ class AllCemeteriesFragment : Fragment() {
                 when(it.status){
                     Status.SUCCESS -> {
                         binding.progressBarAllCems.visibility = View.GONE
-                        binding.swipeRefreshAllCems.isRefreshing = false
                         allCemsListAdapter.submitList(it.data)
                     }
                     Status.ERROR -> {
                         binding.progressBarAllCems.visibility = View.GONE
-                        binding.swipeRefreshAllCems.isRefreshing = false
                         Toast.makeText(requireActivity(), it.message, Toast.LENGTH_SHORT).show()
                     }
                     Status.LOADING -> {

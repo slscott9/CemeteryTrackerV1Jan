@@ -146,7 +146,7 @@ class AddCemeteryFragment : Fragment() {
                     }else{
                         viewModel.sendCemsToServer(
                             CemeteryDto(
-                                cemeteryId = UUID.randomUUID().mostSignificantBits,
+                                id = UUID.randomUUID().mostSignificantBits,
                                 name = binding.etCemName.text.toString(),
                                 location = binding.etCemAddress.text.toString(),
                                 state = binding.tvStateList.text.toString(),
@@ -157,7 +157,7 @@ class AddCemeteryFragment : Fragment() {
                                 firstYear = binding.etCemFirstYear.text.toString(),
                                 cemSection = binding.etCemSection.text.toString(),
                                 epochTimeAdded = OffsetDateTime.now().toEpochSecond(),
-                                addedBy = sharedPreferences.getString(Constants.USER_NAME, Constants.NO_USERNAME) ?: "",
+                                addedBy = sharedPreferences.getString(Constants.KEY_LOGGED_IN_USERNAME, Constants.NO_USERNAME) ?: "",
                                 graveCount = 0,
                                 graves = emptyList(),
                             ))
@@ -192,7 +192,7 @@ class AddCemeteryFragment : Fragment() {
         super.onStart()
 
         val serviceIntent = Intent(requireActivity(), ForeGroundLocationService::class.java)
-        activity?.bindService(serviceIntent, foregroundOnlyServiceConnection, Context.BIND_AUTO_CREATE)
+        activity?.bindService(serviceIntent, foregroundOnlyServiceConnection, Context.BIND_AUTO_CREATE) //keeps connection open until explicitly removed
     }
 
     override fun onResume() {
@@ -212,10 +212,11 @@ class AddCemeteryFragment : Fragment() {
     }
 
     override fun onStop() {
+        foregroundLocationService?.unsubscribeToLocationUpdates()
         if(foregroundOnlyLocationServiceBound){
             activity?.unbindService(foregroundOnlyServiceConnection)
+            foregroundOnlyLocationServiceBound = false
         }
-        foregroundLocationService?.unsubscribeToLocationUpdates()
         super.onStop()
     }
 
@@ -223,7 +224,7 @@ class AddCemeteryFragment : Fragment() {
 
 
     private inner class ForegroundBroadcastReceiver : BroadcastReceiver() {
-        override fun onReceive(context: Context?, intent: Intent?) {
+        override fun onReceive(context: Context?, intent: Intent?) { //onReceive() creates a new thread then is moved to background
             val location = intent?.getParcelableExtra<Location>(
                 ForeGroundLocationService.EXTRA_LOCATION
             )
@@ -232,7 +233,6 @@ class AddCemeteryFragment : Fragment() {
             Timber.i("in onReceive of broadcase receiver")
             binding.pbLocation.visibility = View.GONE
 
-            val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
             if(location != null){
                 geoCoder = Geocoder(requireActivity(), Locale.getDefault())

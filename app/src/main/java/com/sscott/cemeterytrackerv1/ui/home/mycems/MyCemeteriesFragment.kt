@@ -7,9 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.sscott.cemeterytrackerv1.R
 import com.sscott.cemeterytrackerv1.databinding.FragmentMyCemeteriesBinding
+import com.sscott.cemeterytrackerv1.other.Status
 import com.sscott.cemeterytrackerv1.ui.adapters.MyCemsListAdapter
+import com.sscott.cemeterytrackerv1.ui.home.HomeFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,6 +21,7 @@ class MyCemeteriesFragment : Fragment() {
 
     private lateinit var binding : FragmentMyCemeteriesBinding
     private lateinit var myCemsListAdapter: MyCemsListAdapter
+    private val viewModel : HomeFragmentViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -33,9 +38,31 @@ class MyCemeteriesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.swipeRefreshMyCems.setOnRefreshListener {
-            Toast.makeText(requireActivity(), "Swipe listener invoked", Toast.LENGTH_SHORT).show()
+        myCemsListAdapter = MyCemsListAdapter(){
+
         }
+
+
+
+        viewModel.myCems.observe(viewLifecycleOwner){
+            it?.let {
+                when(it.status){
+                    Status.SUCCESS -> {
+                        binding.pbMyCems.visibility = View.GONE
+                        myCemsListAdapter.submitList(it.data)
+                    }
+                    Status.ERROR -> {
+                        binding.pbMyCems.visibility = View.GONE
+                        Toast.makeText(requireActivity(), it.message, Toast.LENGTH_SHORT).show()
+                    }
+                    Status.LOADING -> {
+                        binding.pbMyCems.visibility = View.VISIBLE
+                    }
+                }
+            }
+        }
+
+        binding.rvMyCems.adapter = myCemsListAdapter
 
 
 

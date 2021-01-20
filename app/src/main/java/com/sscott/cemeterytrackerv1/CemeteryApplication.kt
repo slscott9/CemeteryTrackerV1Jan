@@ -24,6 +24,7 @@ class CemeteryApplication : Application() , Configuration.Provider{
     }
 
     private fun setupRecurringWork() {
+        Timber.i("Set up recurring work called")
         val constraints = Constraints.Builder()
             .setRequiresCharging(false)
             .build()
@@ -41,7 +42,7 @@ class CemeteryApplication : Application() , Configuration.Provider{
 
     override fun getWorkManagerConfiguration(): Configuration {
         return Configuration.Builder()
-            .setMinimumLoggingLevel(android.util.Log.INFO)
+            .setMinimumLoggingLevel(android.util.Log.VERBOSE)
             .setWorkerFactory(workerFactory)
             .build()
     }

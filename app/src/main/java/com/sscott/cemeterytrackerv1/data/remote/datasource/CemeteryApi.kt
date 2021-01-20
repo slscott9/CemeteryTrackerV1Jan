@@ -5,6 +5,7 @@ import com.sscott.cemeterytrackerv1.data.models.network.UserDto
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface CemeteryApi {
 
@@ -17,14 +18,17 @@ interface CemeteryApi {
     @GET("/api/v1/cemeteries")
     suspend fun allCemeteries() : List<CemeteryDto>
 
+    @GET("/api/v1/cemeteries/{userName}")
+    suspend fun myCemeteries(@Path("userName") userName : String) : List<CemeteryDto>
+
     @POST("/api/v1/cemetery")
-    suspend fun sendCemToNetwork(cemeteryDto: CemeteryDto) : CemeteryDto
+    suspend fun sendCemToNetwork(@Body cemeteryDto: CemeteryDto) : CemeteryDto
 
     @GET("/api/v1/cemetery/sync")
     suspend fun getMostRecentServerInsert() : Long
 
     @POST("/api/v1/cemeteries/add")
-    suspend fun sendUnsyncedCemeteries(unsyncedCemeteries : List<CemeteryDto>) : List<CemeteryDto>
+    suspend fun sendUnsyncedCemeteries(@Body unsyncedCemeteries : List<CemeteryDto>) : List<CemeteryDto>
 
 
 
