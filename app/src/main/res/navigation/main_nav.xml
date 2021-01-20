@@ -56,6 +56,9 @@
         <action
             android:id="@+id/action_cemeteryDetailFragment_to_graveDetailFragment"
             app:destination="@id/graveDetailFragment" />
+        <action
+            android:id="@+id/action_cemeteryDetailFragment_to_addGraveFragment"
+            app:destination="@id/addGraveFragment" />
     </fragment>
     <fragment
         android:id="@+id/graveDetailFragment"

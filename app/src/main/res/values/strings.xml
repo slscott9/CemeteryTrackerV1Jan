@@ -22,6 +22,15 @@
     <string name="cemFirstYear">Cemetery First Year</string>
     <string name="add_cemetery">Add Cemetery</string>
 
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="birth_date">Birth date</string>
+    <string name="death_date">Death date</string>
+    <string name="marriage_year">Marriage year</string>
+    <string name="comment">Comment</string>
+    <string name="grave_num">Grave number</string>
+    <string name="image_add">image_add</string>
+
     <string-array name="string_array_states">
         <item>Alabama</item>
         <item>Alaska</item>

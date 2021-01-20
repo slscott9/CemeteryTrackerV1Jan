@@ -16,7 +16,6 @@
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/addCemToolbar"
-                app:menu="@menu/addcem_menu"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:title="Add Cemetery"
@@ -24,6 +23,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/nsvAddCemForm"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_anchor="@id/appBar"
@@ -240,5 +240,16 @@
                     app:layout_constraintTop_toBottomOf="@+id/tilLayoutCemName" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAddCem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            app:layout_anchor="@id/nsvAddCemForm"
+            app:layout_anchorGravity="bottom|right"
+            android:layout_margin="16dp"
+            app:srcCompat="@drawable/ic_baseline_add_24"
+            android:contentDescription="@string/image_add" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

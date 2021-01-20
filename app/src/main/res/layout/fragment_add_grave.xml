@@ -1,15 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.add.grave.AddGraveFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.textfield.TextInputLayout
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/ablAddGrave"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/tbAddGrave"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:title="Add Grave"
+                app:titleTextColor="@color/white" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nsvAddGraveForm"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilFirstName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="16dp"
+                    app:helperText="@string/first_name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etFirstName"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilLastName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    app:helperText="@string/last_name"
+                    app:layout_constraintEnd_toEndOf="@+id/tilFirstName"
+                    app:layout_constraintStart_toStartOf="@+id/tilFirstName"
+                    app:layout_constraintTop_toBottomOf="@id/tilFirstName">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etLastName"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilBirthDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    app:helperText="@string/birth_date"
+                    app:layout_constraintEnd_toEndOf="@+id/tilLastName"
+                    app:layout_constraintStart_toStartOf="@+id/tilLastName"
+                    app:layout_constraintTop_toBottomOf="@id/tilLastName">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etBirthDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilDeathDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    app:helperText="@string/death_date"
+                    app:layout_constraintEnd_toEndOf="@+id/tilBirthDate"
+                    app:layout_constraintStart_toStartOf="@+id/tilBirthDate"
+                    app:layout_constraintTop_toBottomOf="@id/tilBirthDate">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etDeathDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilMarriageYear"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    app:helperText="@string/marriage_year"
+                    app:layout_constraintEnd_toEndOf="@+id/tilDeathDate"
+                    app:layout_constraintStart_toStartOf="@+id/tilDeathDate"
+                    app:layout_constraintTop_toBottomOf="@id/tilDeathDate">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etMarriageYear"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilComment"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    app:helperText="@string/comment"
+                    app:layout_constraintEnd_toEndOf="@+id/tilMarriageYear"
+                    app:layout_constraintStart_toStartOf="@+id/tilMarriageYear"
+                    app:layout_constraintTop_toBottomOf="@id/tilMarriageYear">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etComment"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilGraveNum"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="32dp"
+                    app:helperText="@string/grave_num"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/tilComment"
+                    app:layout_constraintStart_toStartOf="@+id/tilComment"
+                    app:layout_constraintTop_toBottomOf="@id/tilComment">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etGraveNum"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAddGrave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_anchor="@id/nsvAddGraveForm"
+            app:layout_anchorGravity="bottom|right"
+            android:layout_margin="16dp"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            android:src="@drawable/ic_baseline_add_24"
+            android:contentDescription="@string/image_add" />
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>
