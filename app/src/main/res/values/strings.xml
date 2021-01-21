@@ -30,6 +30,13 @@
     <string name="comment">Comment</string>
     <string name="grave_num">Grave number</string>
     <string name="image_add">image_add</string>
+    <string name="added_by">Added by:</string>
+    <string name="established">Established</string>
+    <string name="section">Section:</string>
+    <string name="range">Range:</string>
+    <string name="spot">Spot:</string>
+    <string name="township">Township:</string>
+    <string name="graves">Graves:</string>
 
     <string-array name="string_array_states">
         <item>Alabama</item>

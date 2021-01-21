@@ -1,5 +1,7 @@
 package com.sscott.cemeterytrackerv1.data.models.domain
 
+
+
 data class GraveDomain(
     val graveId : Long,
     val firstName: String,
@@ -11,4 +13,7 @@ data class GraveDomain(
     val graveNumber : String,
     val epochTimeAdded : Long,
     val addedBy : String,
+    val cemeteryId : Long
 )
+
+

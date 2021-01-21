@@ -5,31 +5,43 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sscott.cemeterytrackerv1.data.models.network.CemeteryDto
+import com.sscott.cemeterytrackerv1.data.models.domain.CemeteryDomain
+import com.sscott.cemeterytrackerv1.data.models.network.cemdto.CemeteryDto
 import com.sscott.cemeterytrackerv1.data.repository.Repository
+import com.sscott.cemeterytrackerv1.other.InsertResponse
 import com.sscott.cemeterytrackerv1.other.Resource
+import com.sscott.cemeterytrackerv1.other.Status
 import kotlinx.coroutines.launch
 
 class AddCemViewModel @ViewModelInject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
-    private val _cemeteryResponse = MutableLiveData<Resource<CemeteryDto>>()
-    val cemeteryResponse : LiveData<Resource<CemeteryDto>> = _cemeteryResponse
+    private val _insertResponse = MutableLiveData<Resource<InsertResponse>>()
+    val insertResponse : LiveData<Resource<InsertResponse>> = _insertResponse
 
-    fun sendCemsToServer(cemeteryDto: CemeteryDto) {
+    fun sendCemsToServer(cemetery: CemeteryDomain) {
 
-        _cemeteryResponse.postValue(Resource.loading(null))
+        _insertResponse.postValue(Resource.loading(null))
 
         viewModelScope.launch {
-            _cemeteryResponse.postValue(
-                repository.sendCemToNetwork(cemeteryDto)
-            )
+
+            val id = repository.insertCemetery(cemetery)
+
+
+            val response = repository.sendCemToNetwork(cemetery)
+
+            when(response.status){
+                Status.SUCCESS -> {
+                    _insertResponse.postValue(Resource.success(InsertResponse(id = id, message = "")))
+                }
+                Status.ERROR -> {
+                    _insertResponse.postValue(Resource.error( data = InsertResponse(id = id, message = ""),msg = response.message.toString()))
+
+                }
+            }
         }
-
     }
 
-    fun resetCemResponse() {
-        _cemeteryResponse.value = null
-    }
+
 }

@@ -1,8 +1,9 @@
 package com.sscott.cemeterytrackerv1.data.local.datasource
 
-import com.sscott.cemeterytrackerv1.data.models.entities.Cemetery
-import com.sscott.cemeterytrackerv1.data.models.entities.CemeteryGraves
-import com.sscott.cemeterytrackerv1.data.models.network.CemeteryDto
+import androidx.lifecycle.LiveData
+import com.sscott.cemeterytrackerv1.data.models.entities.cemetery.Cemetery
+import com.sscott.cemeterytrackerv1.data.models.entities.cemetery.CemeteryGraves
+import com.sscott.cemeterytrackerv1.data.models.entities.grave.Grave
 
 interface LocalDataSource {
 
@@ -12,4 +13,7 @@ interface LocalDataSource {
 
     suspend fun unSyncedCemeteries(mostRecentServerInsert : Long) : List<CemeteryGraves>
 
+    suspend fun insertGrave(grave: Grave) : Long
+
+    fun getCemetery(cemId : Long) : LiveData<Cemetery>
 }

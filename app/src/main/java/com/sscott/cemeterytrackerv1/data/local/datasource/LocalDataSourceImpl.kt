@@ -1,9 +1,9 @@
 package com.sscott.cemeterytrackerv1.data.local.datasource
 
-import com.sscott.cemeterytrackerv1.data.models.entities.Cemetery
-import com.sscott.cemeterytrackerv1.data.models.entities.CemeteryGraves
-import com.sscott.cemeterytrackerv1.data.models.network.CemeteryDto
-import com.sscott.cemeterytrackerv1.other.ResponseHandler
+import androidx.lifecycle.LiveData
+import com.sscott.cemeterytrackerv1.data.models.entities.cemetery.Cemetery
+import com.sscott.cemeterytrackerv1.data.models.entities.cemetery.CemeteryGraves
+import com.sscott.cemeterytrackerv1.data.models.entities.grave.Grave
 import javax.inject.Inject
 
 class LocalDataSourceImpl @Inject constructor(
@@ -20,5 +20,13 @@ class LocalDataSourceImpl @Inject constructor(
 
     override suspend fun unSyncedCemeteries(mostRecentServerInsert: Long): List<CemeteryGraves> {
         return dao.unSyncedCemeteries(mostRecentServerInsert)
+    }
+
+    override suspend fun insertGrave(grave: Grave): Long {
+        return dao.insertGrave(grave)
+    }
+
+    override fun getCemetery(cemId: Long): LiveData<Cemetery> {
+        return dao.getCemetery(cemId)
     }
 }

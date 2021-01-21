@@ -1,8 +1,9 @@
 package com.sscott.cemeterytrackerv1.data.remote.datasource
 
-import com.sscott.cemeterytrackerv1.data.models.network.CemeteryDto
-import com.sscott.cemeterytrackerv1.data.models.network.GravetDto
+
 import com.sscott.cemeterytrackerv1.data.models.network.UserDto
+import com.sscott.cemeterytrackerv1.data.models.network.cemdto.CemeteryDto
+import com.sscott.cemeterytrackerv1.data.models.network.gravedto.GraveDto
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -32,7 +33,7 @@ interface CemeteryApi {
     suspend fun sendUnsyncedCemeteries(@Body unsyncedCemeteries : List<CemeteryDto>) : List<CemeteryDto>
 
     @POST("/api/v1/grave")
-    suspend fun sendGraveToNetwork(@Body graveDto: GravetDto) : GravetDto
+    suspend fun sendGraveToNetwork(@Body graveDto: GraveDto) : GraveDto
 
 
 

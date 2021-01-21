@@ -1,7 +1,10 @@
 package com.sscott.cemeterytrackerv1.data.remote.datasource
 
-import com.sscott.cemeterytrackerv1.data.models.network.CemeteryDto
+
+import com.sscott.cemeterytrackerv1.data.models.domain.GraveDomain
 import com.sscott.cemeterytrackerv1.data.models.network.UserDto
+import com.sscott.cemeterytrackerv1.data.models.network.cemdto.CemeteryDto
+import com.sscott.cemeterytrackerv1.data.models.network.gravedto.GraveDto
 import com.sscott.cemeterytrackerv1.other.Resource
 import retrofit2.Response
 
@@ -20,6 +23,8 @@ interface RemoteDataSource {
     suspend fun getMostRecentServerInsert() : Long
 
     suspend fun sendUnsyncedCemeteries(unsyncedCemeteries : List<CemeteryDto>) : List<CemeteryDto>
+
+    suspend fun sendGraveToNetwork(grave : GraveDto) : GraveDto
 
 
 }

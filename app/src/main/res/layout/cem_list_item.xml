@@ -7,9 +7,14 @@
         <variable
             name="cemetery"
             type="com.sscott.cemeterytrackerv1.data.models.domain.CemeteryDomain" />
+
+            <variable
+                name="listener"
+                type="com.sscott.cemeterytrackerv1.ui.adapters.MyCemsListAdapter.MyCemsListener" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
+        android:onClick="@{() -> listener.onClick(cemetery)}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

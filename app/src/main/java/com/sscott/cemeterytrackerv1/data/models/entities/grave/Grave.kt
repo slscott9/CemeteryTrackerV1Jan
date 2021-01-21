@@ -1,8 +1,9 @@
-package com.sscott.cemeterytrackerv1.data.models.entities
+package com.sscott.cemeterytrackerv1.data.models.entities.grave
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.sscott.cemeterytrackerv1.data.models.entities.cemetery.Cemetery
 
 /*
     Cemetery has many graves

@@ -1,9 +1,10 @@
-package com.sscott.cemeterytrackerv1.data.models.entities
+package com.sscott.cemeterytrackerv1.data.models.entities.cemetery
 
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Relation
+import com.sscott.cemeterytrackerv1.data.models.entities.grave.Grave
 
 @Entity(tableName = "cemetery_v1_table")
 data class Cemetery(
@@ -24,8 +25,8 @@ data class Cemetery(
 )
 
 data class CemeteryGraves(
-    @Embedded val cemetery: Cemetery,
-    @Relation(
+        @Embedded val cemetery: Cemetery,
+        @Relation(
         parentColumn = "cemeteryId",
         entityColumn = "cemeteryId",
     )

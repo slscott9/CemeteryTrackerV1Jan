@@ -30,7 +30,7 @@ import androidx.transition.TransitionInflater
 import com.google.android.material.snackbar.Snackbar
 import com.sscott.cemeterytrackerv1.BuildConfig
 import com.sscott.cemeterytrackerv1.R
-import com.sscott.cemeterytrackerv1.data.models.network.CemeteryDto
+import com.sscott.cemeterytrackerv1.data.models.domain.CemeteryDomain
 import com.sscott.cemeterytrackerv1.databinding.FragmentAddCemeteryBinding
 import com.sscott.cemeterytrackerv1.location.ForeGroundLocationService
 import com.sscott.cemeterytrackerv1.other.Constants
@@ -99,7 +99,7 @@ class AddCemeteryFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_cemetery, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
 
-        viewModel.cemeteryResponse.observe(viewLifecycleOwner) {
+        viewModel.insertResponse.observe(viewLifecycleOwner) {
             it?.let {
                 when (it.status) {
                     Status.SUCCESS -> {
@@ -108,7 +108,7 @@ class AddCemeteryFragment : Fragment() {
                         val option = NavOptions.Builder()
                                 .setPopUpTo(R.id.addCemeteryFragment, true)
                                 .build()
-                        findNavController().navigate(AddCemeteryFragmentDirections.actionAddCemeteryFragmentToRecentlyAddedCemFragment(), option)
+                        findNavController().navigate(AddCemeteryFragmentDirections.actionAddCemeteryFragmentToCemeteryDetailFragment(it.data!!.id), option)
 
                         //go to recently added cemetery fragment
                     }
@@ -120,7 +120,7 @@ class AddCemeteryFragment : Fragment() {
                         val option = NavOptions.Builder()
                                 .setPopUpTo(R.id.addCemeteryFragment, true)
                                 .build()
-                        findNavController().navigate(AddCemeteryFragmentDirections.actionAddCemeteryFragmentToRecentlyAddedCemFragment(), option)
+                        findNavController().navigate(AddCemeteryFragmentDirections.actionAddCemeteryFragmentToCemeteryDetailFragment(it.data!!.id), option)
                     }
                     Status.LOADING -> {
                         binding.pbLocation.visibility = View.VISIBLE
@@ -142,8 +142,8 @@ class AddCemeteryFragment : Fragment() {
                 Toast.makeText(requireContext(), "Please enter a name for the cemetery.", Toast.LENGTH_SHORT).show()
             } else {
                 viewModel.sendCemsToServer(
-                        CemeteryDto(
-                                id = UUID.randomUUID().mostSignificantBits,
+                        CemeteryDomain(
+                                cemeteryId = UUID.randomUUID().mostSignificantBits,
                                 name = binding.etCemName.text.toString(),
                                 location = binding.etCemAddress.text.toString(),
                                 state = binding.tvStateList.text.toString(),

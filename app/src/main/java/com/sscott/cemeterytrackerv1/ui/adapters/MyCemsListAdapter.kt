@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sscott.cemeterytrackerv1.data.models.domain.CemeteryDomain
 import com.sscott.cemeterytrackerv1.databinding.CemListItemBinding
 
-class MyCemsListAdapter(listener: (cem: CemeteryDomain) -> Unit) : ListAdapter<CemeteryDomain, MyCemsListAdapter.ViewHolder>(DiffUtilCallback()) {
+class MyCemsListAdapter(val listener: MyCemsListener) : ListAdapter<CemeteryDomain, MyCemsListAdapter.ViewHolder>(DiffUtilCallback()) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -21,10 +21,11 @@ class MyCemsListAdapter(listener: (cem: CemeteryDomain) -> Unit) : ListAdapter<C
         holder.bind(getItem(position))
     }
 
-    class ViewHolder(val binding : CemListItemBinding) : RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder(val binding : CemListItemBinding) : RecyclerView.ViewHolder(binding.root){
 
         fun bind(cemeteryDomain: CemeteryDomain){
             binding.cemetery = cemeteryDomain
+            binding.listener = listener
         }
     }
 

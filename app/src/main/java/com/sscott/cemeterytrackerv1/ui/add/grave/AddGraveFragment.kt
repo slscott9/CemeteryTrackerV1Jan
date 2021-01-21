@@ -6,14 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.sscott.cemeterytrackerv1.R
 import com.sscott.cemeterytrackerv1.databinding.FragmentAddGraveBinding
+import com.sscott.cemeterytrackerv1.other.Status
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AddGraveFragment : Fragment() {
 
     private lateinit var binding : FragmentAddGraveBinding
+    private val viewModel : AddGraveViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,5 +28,33 @@ class AddGraveFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.addGraveResponse.observe(viewLifecycleOwner){
+            it?.let {
+                when(it.status){
+                    Status.SUCCESS -> {
+                        binding.pbAddGrave.visibility = View.GONE
+//                        findNavController().navigate(AddGraveFragmentDirections.actionAddGraveFragmentToGraveDetailFragment())
+                    }
+                    Status.LOADING -> {
+
+                    }
+                    Status.ERROR -> {
+
+                    }
+                }
+            }
+        }
+
+        binding.fabAddGrave.setOnClickListener {
+
+        }
+
+    }
+
+
 
 }

@@ -9,10 +9,12 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.sscott.cemeterytrackerv1.R
 import com.sscott.cemeterytrackerv1.databinding.FragmentMyCemeteriesBinding
 import com.sscott.cemeterytrackerv1.other.Status
 import com.sscott.cemeterytrackerv1.ui.adapters.MyCemsListAdapter
+import com.sscott.cemeterytrackerv1.ui.home.HomeFragmentDirections
 import com.sscott.cemeterytrackerv1.ui.home.HomeFragmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,9 +40,10 @@ class MyCemeteriesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        myCemsListAdapter = MyCemsListAdapter(){
+        myCemsListAdapter = MyCemsListAdapter(MyCemsListAdapter.MyCemsListener {
+            parentFragment?.findNavController()?.navigate(HomeFragmentDirections.actionHomeFragmentToCemeteryDetailFragment(it.cemeteryId))
 
-        }
+        })
 
 
 

@@ -90,7 +90,9 @@
         tools:layout="@layout/fragment_add_grave" >
         <action
             android:id="@+id/action_addGraveFragment_to_graveDetailFragment"
-            app:destination="@id/graveDetailFragment" />
+            app:destination="@id/graveDetailFragment"
+            app:popUpTo="@id/addGraveFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/recentlyAddedCemFragment"

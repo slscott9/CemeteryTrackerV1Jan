@@ -5,8 +5,6 @@ import androidx.hilt.Assisted
 import androidx.hilt.work.WorkerInject
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.sscott.cemeterytrackerv1.data.models.network.asNetworkModelList
-import com.sscott.cemeterytrackerv1.data.remote.datasource.RemoteDataSource
 import com.sscott.cemeterytrackerv1.data.repository.Repository
 import timber.log.Timber
 
@@ -36,7 +34,7 @@ class CemeteryRefreshWorker @WorkerInject constructor(
                 Timber.i("${syncInfo.mostRecentLocalInsert} > ${syncInfo.mostRecentServerInsert}")
                 val unsyncedCemeteries = repository.unSyncedCemeteries(syncInfo.mostRecentServerInsert) //get all cemeteries/graves whose epoch time > mostRecentServerInsert
 
-                repository.sendUnsyncedCemeteries(unsyncedCemeteries.asNetworkModelList())
+                repository.sendUnsyncedCemeteries(unsyncedCemeteries)
             }
             Result.success()
         }catch (e : Exception){

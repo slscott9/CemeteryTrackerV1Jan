@@ -14,5 +14,7 @@ data class CemeteryDomain(
     val cemSection : String,
     val epochTimeAdded : Long,
     val addedBy : String,
-    val graveCount : Int
+    val graveCount : Int,
+    val graves : List<GraveDomain>?
+
 )

@@ -156,6 +156,14 @@
 
         </androidx.core.widget.NestedScrollView>
 
+        <ProgressBar
+            android:id="@+id/pbAddGrave"
+            android:visibility="gone"
+            app:layout_anchor="@id/nsvAddGraveForm"
+            app:layout_anchorGravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabAddGrave"
             android:layout_width="wrap_content"

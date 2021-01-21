@@ -10,6 +10,12 @@ import com.sscott.cemeterytrackerv1.data.local.CemeteryDatabase
 import com.sscott.cemeterytrackerv1.data.local.datasource.CemeteryDao
 import com.sscott.cemeterytrackerv1.data.local.datasource.LocalDataSource
 import com.sscott.cemeterytrackerv1.data.local.datasource.LocalDataSourceImpl
+import com.sscott.cemeterytrackerv1.data.models.domain.CemeteryDomain
+import com.sscott.cemeterytrackerv1.data.models.entities.cemetery.Cemetery
+import com.sscott.cemeterytrackerv1.data.models.entities.cemetery.CemeteryMapper
+import com.sscott.cemeterytrackerv1.data.models.mapper.DomainMapper
+import com.sscott.cemeterytrackerv1.data.models.network.cemdto.CemeteryDto
+import com.sscott.cemeterytrackerv1.data.models.network.cemdto.CemeteryDtoMapper
 import com.sscott.cemeterytrackerv1.data.remote.BasicAuthInterceptor
 import com.sscott.cemeterytrackerv1.data.remote.datasource.CemeteryApi
 import com.sscott.cemeterytrackerv1.data.remote.datasource.RemoteDataSource
@@ -74,8 +80,15 @@ object AppModule {
         remoteDataSource: RemoteDataSource,
         localDataSource: LocalDataSource,
         responseHandler: ResponseHandler,
-        context : Application
-    ): Repository = RepositoryImpl(remoteDataSource, localDataSource, responseHandler, context)
+        context : Application,
+
+    ): Repository = RepositoryImpl(
+            remoteDataSource,
+            localDataSource,
+            responseHandler,
+            context
+
+    )
 
 
     @Singleton
@@ -144,6 +157,7 @@ object AppModule {
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )
     }
+
 
 
 }
