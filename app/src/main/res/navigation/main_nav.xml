@@ -30,7 +30,7 @@
                 android:id="@+id/registerToHome"
                 app:destination="@id/homeFragment"
                 app:popUpTo="@id/homeFragment"
-                app:popUpToInclusive="false" />
+                app:popUpToInclusive="true" />
         </fragment>
     </navigation>
     <fragment
@@ -40,7 +40,8 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_cemeteryDetailFragment"
-            app:destination="@id/cemeteryDetailFragment" />
+            app:destination="@id/cemeteryDetailFragment"
+            app:popUpTo="@id/homeFragment" />
         <action
             android:id="@+id/action_homeFragment_to_addCemeteryFragment"
             app:destination="@id/addCemeteryFragment" />

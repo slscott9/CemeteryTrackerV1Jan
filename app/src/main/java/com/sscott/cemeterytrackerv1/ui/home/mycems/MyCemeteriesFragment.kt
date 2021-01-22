@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -66,10 +67,22 @@ class MyCemeteriesFragment : Fragment() {
         }
 
         binding.rvMyCems.adapter = myCemsListAdapter
+    }
 
+    private fun setupSearch() {
+        binding.myCemsSearchView.setOnQueryTextListener(
+                object : android.widget.SearchView.OnQueryTextListener,
+                        SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        return true
+                    }
 
-
-
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        newText?.let { viewModel.setSearchQuery(it) } //as user types searchQuery it is offered to subscribers which triggers repo.getSearchCemList
+                        return true
+                    }
+                }
+        )
     }
 
 

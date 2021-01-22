@@ -10,6 +10,9 @@ import com.sscott.cemeterytrackerv1.data.models.domain.CemeteryDomain
 import com.sscott.cemeterytrackerv1.data.repository.Repository
 import com.sscott.cemeterytrackerv1.other.Constants
 import com.sscott.cemeterytrackerv1.other.Resource
+import kotlinx.coroutines.channels.ConflatedBroadcastChannel
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -33,6 +36,16 @@ class HomeFragmentViewModel @ViewModelInject constructor(
             _myCems.value = repository.myCemeteries(userName)
         }
     }
+
+    private val searchChannel = ConflatedBroadcastChannel<String>()
+
+    val cemeterySearchResult = searchChannel.asFlow()
+            .flatMapLatest { searchQuery -> repository.getCemsFromSearch(searchQuery) }.asli
+
+    fun setSearchQuery(searchQuery : String){
+        searchChannel.offer(searchQuery)
+    }
+
 
     fun refreshCemeteries() {
         viewModelScope.launch {

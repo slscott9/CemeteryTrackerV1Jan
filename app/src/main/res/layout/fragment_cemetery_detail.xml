@@ -14,8 +14,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/tbCemDetail"
+                    app:title="@string/cemetery"
+                    app:layout_scrollFlags="scroll|enterAlways|snap"
+                    app:titleTextColor="@color/white"
+                    app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"/>
+        </com.google.android.material.appbar.AppBarLayout>
+
         <androidx.core.widget.NestedScrollView
             android:fillViewport="true"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -41,10 +56,10 @@
                     android:id="@+id/tvCemLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:text="@{cemetery.location}"
-                    app:layout_constraintStart_toStartOf="@+id/tvGraveCountTitle"
-                    app:layout_constraintTop_toBottomOf="@+id/tvGraveCountTitle"
+                    app:layout_constraintStart_toStartOf="@+id/tvCemName"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCemName"
                     tools:text="15472 Co Rd 29 Jemison, AL 35085, USA " />
 
                 <TextView
@@ -215,8 +230,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="@string/graves"
-                    app:layout_constraintStart_toStartOf="@+id/tvCemName"
-                    app:layout_constraintTop_toBottomOf="@+id/tvCemName" />
+                    app:layout_constraintStart_toStartOf="@+id/tvSpotTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSpotTitle" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvGraves"
