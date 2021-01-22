@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
-                android:text="Jane Doe"
+                setGraveName="@{grave}"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -137,6 +137,7 @@
 
                 <TextView
                     android:id="@+id/tvBirthDate"
+                    android:text="@{grave.birthDate}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -146,6 +147,7 @@
 
                 <TextView
                     android:id="@+id/tvDeathDate"
+                    android:text="@{grave.deathDate}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -155,6 +157,7 @@
 
                 <TextView
                     android:id="@+id/tvMarriageYear"
+                    android:text="@{grave.marriageYear}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -164,6 +167,7 @@
 
                 <TextView
                     android:id="@+id/tvComment"
+                    android:text="@{grave.comment}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -173,6 +177,7 @@
 
                 <TextView
                     android:id="@+id/tvGraveNum"
+                    android:text="@{grave.graveNumber}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -182,6 +187,7 @@
 
                 <TextView
                     android:id="@+id/tvAddedBy"
+                    android:text="@{grave.addedBy}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"

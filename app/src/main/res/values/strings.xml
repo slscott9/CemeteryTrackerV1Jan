@@ -38,6 +38,7 @@
     <string name="township">Township:</string>
     <string name="graves">Graves:</string>
     <string name="more">More</string>
+    <string name="less">Less</string>
 
     <string-array name="string_array_states">
         <item>Alabama</item>

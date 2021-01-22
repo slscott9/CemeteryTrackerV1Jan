@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
+import com.sscott.cemeterytrackerv1.R
 import com.sscott.cemeterytrackerv1.data.models.domain.CemeteryDomain
 import com.sscott.cemeterytrackerv1.data.models.domain.GraveDomain
 import com.sscott.cemeterytrackerv1.databinding.GraveListItemBinding
@@ -35,12 +36,13 @@ class GraveListAdapter(val listener : GraveListListener) : ListAdapter<GraveDoma
             binding.btnMore.setOnClickListener {
                 if(binding.clMoreInfo.visibility == View.VISIBLE){
                     TransitionManager.beginDelayedTransition(binding.cvParent, AutoTransition())
-
-                    binding.clMoreInfo.visibility = View.INVISIBLE
+                    binding.btnMore.text = binding.root.context.getString(R.string.more)
+                    binding.clMoreInfo.visibility = View.GONE
 
                 }else{
                     TransitionManager.beginDelayedTransition(binding.cvParent, AutoTransition())
                     binding.clMoreInfo.visibility = View.VISIBLE
+                    binding.btnMore.text = binding.root.context.getString(R.string.less)
                 }
             }
         }
