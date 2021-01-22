@@ -38,6 +38,8 @@ class HomeFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
 
+//        viewModel.refreshCemsList()
+
         val tabLayout = binding.cemTabLayout
         val viewPager = binding.cemViewPager
 
@@ -66,7 +68,7 @@ class HomeFragment : Fragment() {
 
         binding.swipeRefreshCemeteries.setOnRefreshListener {
 
-            viewModel.refreshCemeteries()
+            viewModel.refreshCemsList()
             binding.swipeRefreshCemeteries.isRefreshing = false
 
         }

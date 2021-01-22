@@ -57,26 +57,20 @@ class RepositoryImpl  (
         }
     }
 
-    override suspend fun allCemeteries() = withContext(Dispatchers.IO){
-        try {
-            responseHandler.handleSuccess(mapper.cemDto.toDomainList(remoteDataSource.allCemeteries()))
-        }catch (e :Exception){
-            Timber.i("Error for allCemeteries() call $e")
-            responseHandler.handleException(e)
-        }
+    override fun allCemeteries(): Flow<List<CemeteryDomain>> {
+        return flow{ emit(mapper.cemDto.toDomainList(remoteDataSource.allCemeteries())) }
     }
 
+        override  fun myCemeteries(userName : String): Flow<List<CemeteryDomain>> {
+            return flow {
+                emit(mapper.cemDto.toDomainList(remoteDataSource.myCemeteries(userName)))
 
 
-        override suspend fun myCemeteries(userName : String) = withContext(Dispatchers.IO){
-        try {
-            responseHandler.handleSuccess(
-                    mapper.cemDto.toDomainList(remoteDataSource.myCemeteries(userName))
-            )
-        }catch (e :Exception){
-            responseHandler.handleException(e)
+            }
         }
-    }
+
+
+
 
     override fun getCemsFromSearch(searchQuery: String): Flow<List<CemeteryDomain>> {
         return localDataSource.getCemsFromSearch(searchQuery)

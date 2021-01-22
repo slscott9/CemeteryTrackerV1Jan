@@ -6,7 +6,7 @@ import com.sscott.cemeterytrackerv1.data.models.entities.grave.Grave
 import com.sscott.cemeterytrackerv1.data.models.mapper.DomainMapper
 
 class CemeteryMapper : DomainMapper<Cemetery, CemeteryDomain>{
-    override suspend fun toDomainList(model: List<Cemetery>): List<CemeteryDomain> {
+    override fun toDomainList(model: List<Cemetery>): List<CemeteryDomain> {
         return model.map {
             CemeteryDomain(
                     cemeteryId = it.cemeteryId,
@@ -98,12 +98,12 @@ class CemeteryMapper : DomainMapper<Cemetery, CemeteryDomain>{
                    epochTimeAdded = it.cemetery.epochTimeAdded,
                    addedBy = it.cemetery.addedBy,
                    graveCount = it.cemetery.graveCount,
-                   graves = toDomainList(it.graves)
+                   graves = toDomainGraveList(it.graves)
            )
         }
     }
 
-    private fun toDomainList(graveDtoList : List<Grave>) : List<GraveDomain>{
+    private fun toDomainGraveList(graveDtoList : List<Grave>) : List<GraveDomain>{
         return graveDtoList.map {
             GraveDomain(
                     graveId = it.graveId,

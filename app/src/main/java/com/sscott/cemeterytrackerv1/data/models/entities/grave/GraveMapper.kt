@@ -6,7 +6,7 @@ import com.sscott.cemeterytrackerv1.data.models.network.gravedto.GraveDto
 
 class GraveMapper : DomainMapper<Grave, GraveDomain> {
 
-    override suspend fun toDomainList(model: List<Grave>): List<GraveDomain> {
+    override  fun toDomainList(model: List<Grave>): List<GraveDomain> {
         return model.map {
             GraveDomain(
                     graveId = it.graveId,

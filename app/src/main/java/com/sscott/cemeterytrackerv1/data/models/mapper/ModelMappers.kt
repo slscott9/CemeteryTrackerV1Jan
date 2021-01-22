@@ -1,7 +1,7 @@
 package com.sscott.cemeterytrackerv1.data.models.mapper
 
 interface DomainMapper<T, DomainModel> {
-    suspend fun toDomainList(model : List<T>) : List<DomainModel>
+    fun toDomainList(model : List<T>) : List<DomainModel>
 
     suspend fun fromDomain(domainModel: DomainModel) : T
 

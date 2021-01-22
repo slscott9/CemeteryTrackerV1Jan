@@ -37,6 +37,7 @@ class MyCemsListAdapter(val listener: MyCemsListener) : ListAdapter<CemeteryDoma
         override fun areContentsTheSame(oldItem: CemeteryDomain, newItem: CemeteryDomain): Boolean {
             return oldItem == newItem
         }
+
     }
 
     class MyCemsListener(val listener : (cem : CemeteryDomain) -> Unit){

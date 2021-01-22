@@ -50,7 +50,7 @@ class MyCemeteriesFragment : Fragment() {
 
 
 
-        viewModel.myCems.observe(viewLifecycleOwner){
+        viewModel.myCemeteries.observe(viewLifecycleOwner){
             it?.let {
                 when(it.status){
                     Status.SUCCESS -> {
@@ -78,6 +78,8 @@ class MyCemeteriesFragment : Fragment() {
     }
 
     private fun setupSearch() {
+
+
         binding.myCemsSearchView.setOnQueryTextListener(
                 object : android.widget.SearchView.OnQueryTextListener,
                         SearchView.OnQueryTextListener {

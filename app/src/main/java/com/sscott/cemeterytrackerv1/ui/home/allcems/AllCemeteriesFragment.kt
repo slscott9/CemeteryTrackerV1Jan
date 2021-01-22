@@ -39,17 +39,13 @@ class AllCemeteriesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
-
-
         val allCemsListAdapter = AllCemsListAdapter {
 
         }
 
         binding.rvAllCems.adapter = allCemsListAdapter
 
-        viewModel.allCems.observe(viewLifecycleOwner){
+        viewModel.allCemeteries.observe(viewLifecycleOwner){
             it?.let {
                 when(it.status){
                     Status.SUCCESS -> {
@@ -68,6 +64,7 @@ class AllCemeteriesFragment : Fragment() {
         }
 
         binding.rvAllCems.adapter = allCemsListAdapter
+
     }
 
 

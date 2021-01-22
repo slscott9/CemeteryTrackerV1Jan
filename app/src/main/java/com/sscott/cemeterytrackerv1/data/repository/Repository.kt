@@ -19,9 +19,9 @@ interface Repository {
     suspend fun register(userDto: UserDto): Resource<UserDto>
 
     //insert and get cems
-    suspend fun allCemeteries(): Resource<List<CemeteryDomain>>
+    fun allCemeteries(): Flow<List<CemeteryDomain>>
 
-    suspend fun myCemeteries(userName : String): Resource<List<CemeteryDomain>>
+    fun myCemeteries(userName : String): Flow<List<CemeteryDomain>>
 
     suspend fun sendCemToNetwork(cemetery: CemeteryDomain): Resource<CemeteryDto>
 
