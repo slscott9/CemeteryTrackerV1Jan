@@ -10,305 +10,265 @@
             type="com.sscott.cemeterytrackerv1.data.models.domain.CemeteryDomain"/>
     </data>
 
-   <androidx.coordinatorlayout.widget.CoordinatorLayout
-       android:id="@+id/coorlCemDetail"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent">
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-       <androidx.constraintlayout.widget.ConstraintLayout
-           android:id="@+id/clParent"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent">
-
-
-           <androidx.constraintlayout.widget.ConstraintLayout
-               android:id="@+id/clCemDetail"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-               app:layout_constraintBottom_toTopOf="@+id/nsvGraveList"
-               app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintStart_toStartOf="parent"
-               app:layout_constraintTop_toTopOf="parent">
-
-               <TextView
-                   android:id="@+id/tvCemName"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginStart="16dp"
-                   android:layout_marginTop="32dp"
-                   android:text="@{cemetery.name}"
-                   android:textSize="24sp"
-                   android:textStyle="bold"
-                   app:layout_constraintStart_toStartOf="parent"
-                   app:layout_constraintTop_toTopOf="parent"
-                   tools:text="Jemison Cemetery" />
-
-               <TextView
-                   android:id="@+id/tvCemLocation"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginTop="8dp"
-                   android:text="@{cemetery.location}"
-                   app:layout_constraintEnd_toEndOf="@+id/tvLocationTitle"
-                   app:layout_constraintHorizontal_bias="0.0"
-                   app:layout_constraintStart_toStartOf="@+id/tvLocationTitle"
-                   app:layout_constraintTop_toBottomOf="@+id/tvLocationTitle"
-                   tools:text="15472 cr 29 " />
-
-               <TextView
-                   android:id="@+id/tvCemState"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginTop="8dp"
-                   android:text="@{cemetery.state}"
-                   app:layout_constraintEnd_toEndOf="@+id/tvCemLocation"
-                   app:layout_constraintHorizontal_bias="0.0"
-                   app:layout_constraintStart_toStartOf="@+id/tvCemLocation"
-                   app:layout_constraintTop_toBottomOf="@+id/tvCemLocation"
-                   tools:text="AL" />
-
-               <TextView
-                   android:id="@+id/tvCemCounty"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginTop="8dp"
-                   android:text="@{cemetery.county}"
-                   app:layout_constraintEnd_toEndOf="@+id/tvCemState"
-                   app:layout_constraintHorizontal_bias="0.0"
-                   app:layout_constraintStart_toStartOf="@+id/tvCemState"
-                   app:layout_constraintTop_toBottomOf="@+id/tvCemState"
-                   tools:text="Chilton" />
-
-               <TextView
-                   android:id="@+id/tvCemTownShip"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginStart="8dp"
-                   android:text="@{cemetery.townShip}"
-                   app:layout_constraintBottom_toBottomOf="@+id/tvTownshipTitle"
-                   app:layout_constraintEnd_toEndOf="parent"
-                   app:layout_constraintHorizontal_bias="0.0"
-                   app:layout_constraintStart_toEndOf="@+id/tvTownshipTitle"
-                   app:layout_constraintTop_toTopOf="@+id/tvTownshipTitle"
-                   tools:text="township" />
-
-               <TextView
-                   android:id="@+id/tvCemSpot"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginTop="8dp"
-                   android:text="@{cemetery.spot}"
-                   app:layout_constraintEnd_toEndOf="@+id/tvCemTownShip"
-                   app:layout_constraintHorizontal_bias="0.0"
-                   app:layout_constraintStart_toStartOf="@+id/tvCemTownShip"
-                   app:layout_constraintTop_toBottomOf="@+id/tvCemTownShip"
-                   tools:text="spot" />
-
-               <TextView
-                   android:id="@+id/tvCemFirstYear"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginStart="8dp"
-                   android:text="@{cemetery.firstYear}"
-                   app:layout_constraintBottom_toBottomOf="@+id/tvEstablished"
-                   app:layout_constraintEnd_toEndOf="parent"
-                   app:layout_constraintHorizontal_bias="0.0"
-                   app:layout_constraintStart_toEndOf="@+id/tvEstablished"
-                   app:layout_constraintTop_toTopOf="@+id/tvEstablished"
-                   tools:text="1994" />
-
-               <TextView
-                   android:id="@+id/tvCemSection"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginTop="8dp"
-                   android:text="@{cemetery.cemSection}"
-                   app:layout_constraintEnd_toEndOf="@+id/tvRange"
-                   app:layout_constraintHorizontal_bias="0.0"
-                   app:layout_constraintStart_toStartOf="@+id/tvRange"
-                   app:layout_constraintTop_toBottomOf="@+id/tvRange"
-                   tools:text="section" />
-
-               <TextView
-                   android:id="@+id/tvAddedBy"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginStart="8dp"
-                   android:text="@{cemetery.addedBy}"
-                   app:layout_constraintBottom_toBottomOf="@+id/tvAddedByTitle"
-                   app:layout_constraintEnd_toStartOf="@+id/tvGraveCountTitle"
-                   app:layout_constraintHorizontal_bias="0.04"
-                   app:layout_constraintStart_toEndOf="@+id/tvAddedByTitle"
-                   app:layout_constraintTop_toTopOf="@+id/tvAddedByTitle"
-                   tools:text="sscott9" />
-
-               <TextView
-                   android:id="@+id/tvGraveCount"
-                   setCemGraveCount="@{cemetery}"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginTop="8dp"
-                   app:layout_constraintEnd_toEndOf="@+id/tvCemSection"
-                   app:layout_constraintHorizontal_bias="0.0"
-                   app:layout_constraintStart_toStartOf="@+id/tvCemSection"
-                   app:layout_constraintTop_toBottomOf="@+id/tvCemSection"
-                   tools:text="2" />
-
-               <TextView
-                   android:id="@+id/tvLocationTitle"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginStart="16dp"
-                   android:layout_marginTop="16dp"
-                   android:text="@string/location"
-                   android:textStyle="bold"
-                   app:layout_constraintStart_toStartOf="@+id/tvCemName"
-                   app:layout_constraintTop_toBottomOf="@+id/tvCemName" />
-
-               <TextView
-                   android:id="@+id/tvDescriptionTitle"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginTop="16dp"
-                   android:text="@string/description"
-                   android:textStyle="bold"
-                   app:layout_constraintEnd_toEndOf="parent"
-                   app:layout_constraintStart_toEndOf="@+id/tvLocationTitle"
-                   app:layout_constraintTop_toBottomOf="@+id/tvEstablished" />
-
-               <TextView
-                   android:id="@+id/tvEstablished"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginStart="8dp"
-                   android:text="@string/established"
-                   app:layout_constraintBaseline_toBaselineOf="@+id/tvCemName"
-                   app:layout_constraintStart_toEndOf="@+id/tvCemName" />
-
-               <TextView
-                   android:id="@+id/tvAddedByTitle"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginTop="32dp"
-                   android:text="@string/added_by"
-                   app:layout_constraintEnd_toEndOf="@+id/tvCemCounty"
-                   app:layout_constraintHorizontal_bias="0.0"
-                   app:layout_constraintStart_toStartOf="@+id/tvCemCounty"
-                   app:layout_constraintTop_toBottomOf="@+id/tvCemCounty" />
-
-               <TextView
-                   android:id="@+id/tvTownshipTitle"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginTop="8dp"
-                   android:text="@string/township"
-                   app:layout_constraintEnd_toEndOf="@+id/tvDescriptionTitle"
-                   app:layout_constraintStart_toStartOf="@+id/tvDescriptionTitle"
-                   app:layout_constraintTop_toBottomOf="@+id/tvDescriptionTitle" />
-
-               <TextView
-                   android:id="@+id/tvSectionTitle"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginTop="8dp"
-                   android:text="@string/section"
-                   app:layout_constraintEnd_toEndOf="@+id/tvRangeTitle"
-                   app:layout_constraintHorizontal_bias="0.0"
-                   app:layout_constraintStart_toStartOf="@+id/tvRangeTitle"
-                   app:layout_constraintTop_toBottomOf="@+id/tvRangeTitle" />
-
-               <TextView
-                   android:id="@+id/tvRangeTitle"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginTop="8dp"
-                   android:text="@string/range"
-                   app:layout_constraintEnd_toEndOf="@+id/tvSpotTitle"
-                   app:layout_constraintHorizontal_bias="0.0"
-                   app:layout_constraintStart_toStartOf="@+id/tvSpotTitle"
-                   app:layout_constraintTop_toBottomOf="@+id/tvSpotTitle" />
-
-               <TextView
-                   android:id="@+id/tvSpotTitle"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginTop="8dp"
-                   android:text="@string/spot"
-                   app:layout_constraintEnd_toEndOf="@+id/tvTownshipTitle"
-                   app:layout_constraintHorizontal_bias="0.0"
-                   app:layout_constraintStart_toStartOf="@+id/tvTownshipTitle"
-                   app:layout_constraintTop_toBottomOf="@+id/tvTownshipTitle" />
-
-               <TextView
-                   android:id="@+id/tvRange"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginTop="8dp"
-                   android:text="@{cemetery.cemRange}"
-                   app:layout_constraintEnd_toEndOf="@+id/tvCemSpot"
-                   app:layout_constraintHorizontal_bias="0.0"
-                   app:layout_constraintStart_toStartOf="@+id/tvCemSpot"
-                   app:layout_constraintTop_toBottomOf="@+id/tvCemSpot"
-                   tools:text="Range value" />
-
-               <TextView
-                   android:id="@+id/tvGraveCountTitle"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginTop="8dp"
-                   android:text="@string/graves"
-                   app:layout_constraintEnd_toEndOf="@+id/tvSectionTitle"
-                   app:layout_constraintHorizontal_bias="0.0"
-                   app:layout_constraintStart_toStartOf="@+id/tvSectionTitle"
-                   app:layout_constraintTop_toBottomOf="@+id/tvSectionTitle" />
-
-           </androidx.constraintlayout.widget.ConstraintLayout>
-
-           <androidx.core.widget.NestedScrollView
-               android:id="@+id/nsvGraveList"
-               android:layout_width="0dp"
-               android:layout_height="0dp"
-               android:layout_gravity="bottom"
-               android:fillViewport="true"
-               app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-               app:layout_constraintBottom_toBottomOf="parent"
-               app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintStart_toStartOf="parent"
-               app:layout_constraintTop_toBottomOf="@+id/clCemDetail">
+        <androidx.core.widget.NestedScrollView
+            android:fillViewport="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
 
-               <androidx.recyclerview.widget.RecyclerView
-                   android:id="@+id/rvGraves"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_marginTop="8dp"
-                   app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                   app:layout_anchor="@id/clCemDetail"
-                   app:layout_anchorGravity="bottom" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-               <ProgressBar
-                   android:id="@+id/pbGetGrave"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:visibility="gone"
-                   app:layout_anchor="@id/coorlCemDetail"
-                   app:layout_anchorGravity="center" />
+                <TextView
+                    android:id="@+id/tvCemName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@{cemetery.name}"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Jemison Cemetery" />
 
-           </androidx.core.widget.NestedScrollView>
+                <TextView
+                    android:id="@+id/tvCemLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@{cemetery.location}"
+                    app:layout_constraintStart_toStartOf="@+id/tvGraveCountTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/tvGraveCountTitle"
+                    tools:text="15472 Co Rd 29 Jemison, AL 35085, USA " />
 
-       </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/tvCemState"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@{cemetery.state}"
+                    app:layout_constraintStart_toStartOf="@+id/tvCemLocation"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCemLocation"
+                    tools:text="AL" />
+
+                <TextView
+                    android:id="@+id/tvCemCounty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@{cemetery.county}"
+                    app:layout_constraintEnd_toEndOf="@+id/tvCemState"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/tvCemState"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCemState"
+                    tools:text="Chilton" />
+
+                <TextView
+                    android:id="@+id/tvCemTownShip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@{cemetery.townShip}"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvTownshipTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/tvTownshipTitle"
+                    app:layout_constraintTop_toTopOf="@+id/tvTownshipTitle"
+                    tools:text="20" />
+
+                <TextView
+                    android:id="@+id/tvCemSpot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@{cemetery.spot}"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvSpotTitle"
+                    app:layout_constraintStart_toEndOf="@+id/tvSpotTitle"
+                    app:layout_constraintTop_toTopOf="@+id/tvSpotTitle"
+                    tools:text="34" />
+
+                <TextView
+                    android:id="@+id/tvCemFirstYear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@{cemetery.firstYear}"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvEstablished"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/tvEstablished"
+                    app:layout_constraintTop_toTopOf="@+id/tvEstablished"
+                    tools:text="1994" />
+
+                <TextView
+                    android:id="@+id/tvCemSection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@{cemetery.cemSection}"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvSectionTitle"
+                    app:layout_constraintStart_toEndOf="@+id/tvSectionTitle"
+                    app:layout_constraintTop_toTopOf="@+id/tvSectionTitle"
+                    tools:text="99" />
+
+                <TextView
+                    android:id="@+id/tvAddedBy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginBottom="13dp"
+                    android:text="@{cemetery.addedBy}"
+                    app:layout_constraintBottom_toTopOf="@+id/rvGraves"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="sscott9" />
+
+                <TextView
+                    android:id="@+id/tvGraveCount"
+                    setCemGraveCount="@{cemetery}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvGraveCountTitle"
+                    app:layout_constraintStart_toEndOf="@+id/tvGraveCountTitle"
+                    app:layout_constraintTop_toTopOf="@+id/tvGraveCountTitle"
+                    tools:text="2" />
+
+                <TextView
+                    android:id="@+id/tvEstablished"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/established"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tvCemName"
+                    app:layout_constraintStart_toEndOf="@+id/tvCemName" />
+
+                <TextView
+                    android:id="@+id/tvAddedByTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/added_by"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvAddedBy"
+                    app:layout_constraintEnd_toStartOf="@+id/tvAddedBy"
+                    app:layout_constraintTop_toTopOf="@+id/tvAddedBy" />
+
+                <TextView
+                    android:id="@+id/tvTownshipTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/township"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvCemSection"
+                    app:layout_constraintStart_toEndOf="@+id/tvCemSection"
+                    app:layout_constraintTop_toTopOf="@+id/tvCemSection" />
+
+                <TextView
+                    android:id="@+id/tvSectionTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/section"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvRange"
+                    app:layout_constraintStart_toEndOf="@+id/tvRange"
+                    app:layout_constraintTop_toTopOf="@+id/tvRange" />
+
+                <TextView
+                    android:id="@+id/tvRangeTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/range"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvCemSpot"
+                    app:layout_constraintStart_toEndOf="@+id/tvCemSpot"
+                    app:layout_constraintTop_toTopOf="@+id/tvCemSpot" />
+
+                <TextView
+                    android:id="@+id/tvSpotTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/spot"
+                    app:layout_constraintStart_toStartOf="@+id/tvCemCounty"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCemCounty" />
+
+                <TextView
+                    android:id="@+id/tvRange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@{cemetery.cemRange}"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvRangeTitle"
+                    app:layout_constraintStart_toEndOf="@+id/tvRangeTitle"
+                    app:layout_constraintTop_toTopOf="@+id/tvRangeTitle"
+                    tools:text="67" />
 
 
+                <TextView
+                    android:id="@+id/tvGraveCountTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/graves"
+                    app:layout_constraintStart_toStartOf="@+id/tvCemName"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCemName" />
 
-       <com.google.android.material.floatingactionbutton.FloatingActionButton
-           android:id="@+id/fabAddGrave"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_margin="16dp"
-           android:contentDescription="@string/image_add"
-           app:srcCompat="@drawable/ic_baseline_add_24" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvGraves"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/guideline"
+                    app:layout_constraintVertical_bias="0.0" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_begin="250dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:src="@drawable/ic_baseline_location_on_24"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvCemLocation"
+                    app:layout_constraintStart_toEndOf="@+id/tvCemLocation"
+                    app:layout_constraintTop_toTopOf="@+id/tvCemLocation" />
 
 
-   </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <ProgressBar
+            android:id="@+id/pbGetGrave"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAddGrave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_baseline_add_24"
+            android:contentDescription="@string/addcemfab"
+            app:layout_behavior="com.google.android.material.floatingactionbutton.FloatingActionButton$Behavior" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
 </layout>
