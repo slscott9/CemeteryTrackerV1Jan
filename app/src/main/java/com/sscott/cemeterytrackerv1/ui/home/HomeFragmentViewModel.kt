@@ -2,10 +2,7 @@ package com.sscott.cemeterytrackerv1.ui.home
 
 import android.content.SharedPreferences
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.sscott.cemeterytrackerv1.data.models.domain.CemeteryDomain
 import com.sscott.cemeterytrackerv1.data.repository.Repository
 import com.sscott.cemeterytrackerv1.other.Constants
@@ -40,7 +37,9 @@ class HomeFragmentViewModel @ViewModelInject constructor(
     private val searchChannel = ConflatedBroadcastChannel<String>()
 
     val cemeterySearchResult = searchChannel.asFlow()
-            .flatMapLatest { searchQuery -> repository.getCemsFromSearch(searchQuery) }.asli
+            .flatMapLatest { searchQuery -> repository.getCemsFromSearch(searchQuery) }.asLiveData()
+
+
 
     fun setSearchQuery(searchQuery : String){
         searchChannel.offer(searchQuery)

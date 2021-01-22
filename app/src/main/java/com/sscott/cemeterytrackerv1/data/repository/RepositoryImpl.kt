@@ -78,12 +78,17 @@ class RepositoryImpl  (
         }
     }
 
-    /*
-           Client generates random UUID for cemeteryId inserts into local db
-           Then sends to network.
-           Local db is used to display users my cemeteries list
+    override fun getCemsFromSearch(searchQuery: String): Flow<List<CemeteryDomain>> {
+        return localDataSource.getCemsFromSearch(searchQuery)
+                .map { mapper.cem.toDomainList(it) }
+    }
 
-         */
+    /*
+               Client generates random UUID for cemeteryId inserts into local db
+               Then sends to network.
+               Local db is used to display users my cemeteries list
+
+             */
     override suspend fun sendCemToNetwork(cemetery: CemeteryDomain) = withContext(Dispatchers.IO){
         try {
             responseHandler.handleSuccess(remoteDataSource.sendCemToNetwork(mapper.cemDto.fromDomain(cemetery)))

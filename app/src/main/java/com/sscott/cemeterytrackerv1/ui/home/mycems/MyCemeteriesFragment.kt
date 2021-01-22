@@ -41,6 +41,8 @@ class MyCemeteriesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupSearch()
+
         myCemsListAdapter = MyCemsListAdapter(MyCemsListAdapter.MyCemsListener {
             parentFragment?.findNavController()?.navigate(HomeFragmentDirections.actionHomeFragmentToCemeteryDetailFragment(it.cemeteryId))
 
@@ -63,6 +65,12 @@ class MyCemeteriesFragment : Fragment() {
                         binding.pbMyCems.visibility = View.VISIBLE
                     }
                 }
+            }
+        }
+
+        viewModel.cemeterySearchResult.observe(viewLifecycleOwner){
+            it?.let {
+                myCemsListAdapter.submitList(it)
             }
         }
 

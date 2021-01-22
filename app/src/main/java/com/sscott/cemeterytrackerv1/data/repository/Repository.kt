@@ -31,6 +31,9 @@ interface Repository {
 
     suspend fun getNetworkCemetery(id : Long) : Resource<CemeteryDomain>
 
+    fun getCemsFromSearch(searchQuery: String) : Flow<List<CemeteryDomain>>
+
+
 
     //insert and get database graves
     suspend fun insertGrave(grave: GraveDomain) : Long

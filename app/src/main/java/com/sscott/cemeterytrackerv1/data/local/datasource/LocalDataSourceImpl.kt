@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.sscott.cemeterytrackerv1.data.models.entities.cemetery.Cemetery
 import com.sscott.cemeterytrackerv1.data.models.entities.cemetery.CemeteryGraves
 import com.sscott.cemeterytrackerv1.data.models.entities.grave.Grave
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class LocalDataSourceImpl @Inject constructor(
@@ -28,5 +29,9 @@ class LocalDataSourceImpl @Inject constructor(
 
     override suspend fun getCemetery(cemId: Long): Cemetery {
         return dao.getCemetery(cemId)
+    }
+
+    override fun getCemsFromSearch(searchQuery: String): Flow<List<Cemetery>> {
+        return dao.getCemsFromSearch(searchQuery)
     }
 }

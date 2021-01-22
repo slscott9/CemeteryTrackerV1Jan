@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.sscott.cemeterytrackerv1.data.models.entities.cemetery.Cemetery
 import com.sscott.cemeterytrackerv1.data.models.entities.cemetery.CemeteryGraves
 import com.sscott.cemeterytrackerv1.data.models.entities.grave.Grave
+import kotlinx.coroutines.flow.Flow
 
 interface LocalDataSource {
 
@@ -16,4 +17,7 @@ interface LocalDataSource {
     suspend fun insertGrave(grave: Grave) : Long
 
     suspend fun getCemetery(cemId : Long) : Cemetery
+
+    fun getCemsFromSearch(searchQuery: String) : Flow<List<Cemetery>>
+
 }

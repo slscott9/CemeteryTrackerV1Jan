@@ -8,6 +8,7 @@ import androidx.room.Transaction
 import com.sscott.cemeterytrackerv1.data.models.entities.cemetery.Cemetery
 import com.sscott.cemeterytrackerv1.data.models.entities.cemetery.CemeteryGraves
 import com.sscott.cemeterytrackerv1.data.models.entities.grave.Grave
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CemeteryDao {
@@ -27,5 +28,9 @@ interface CemeteryDao {
 
     @Query("select * from cemetery_v1_table where cemeteryId = :cemId")
     suspend fun getCemetery(cemId : Long) : Cemetery
+
+    //search cemeteries
+    @Query("select * from cemetery_v1_table where name like '%' || :searchQuery || '%'")
+    fun getCemsFromSearch(searchQuery: String) : Flow<List<Cemetery>>
 
 }
