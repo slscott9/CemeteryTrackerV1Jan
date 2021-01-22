@@ -4,10 +4,8 @@ package com.sscott.cemeterytrackerv1.data.remote.datasource
 import com.sscott.cemeterytrackerv1.data.models.network.UserDto
 import com.sscott.cemeterytrackerv1.data.models.network.cemdto.CemeteryDto
 import com.sscott.cemeterytrackerv1.data.models.network.gravedto.GraveDto
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import kotlinx.coroutines.flow.Flow
+import retrofit2.http.*
 
 interface CemeteryApi {
 
@@ -25,6 +23,10 @@ interface CemeteryApi {
 
     @POST("/api/v1/cemetery")
     suspend fun sendCemToNetwork(@Body cemeteryDto: CemeteryDto) : CemeteryDto
+
+    @GET("/api/v1/cemetery/{id}")
+    suspend fun getCemetery(@Path("id") id : Long) : CemeteryDto
+
 
     @GET("/api/v1/cemetery/sync")
     suspend fun getMostRecentServerInsert() : Long

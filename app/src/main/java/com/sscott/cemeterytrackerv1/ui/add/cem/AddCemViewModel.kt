@@ -12,6 +12,7 @@ import com.sscott.cemeterytrackerv1.other.InsertResponse
 import com.sscott.cemeterytrackerv1.other.Resource
 import com.sscott.cemeterytrackerv1.other.Status
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class AddCemViewModel @ViewModelInject constructor(
     private val repository: Repository
@@ -27,6 +28,8 @@ class AddCemViewModel @ViewModelInject constructor(
         viewModelScope.launch {
 
             val id = repository.insertCemetery(cemetery)
+
+            Timber.i(id.toString())
 
 
             val response = repository.sendCemToNetwork(cemetery)

@@ -37,6 +37,7 @@
     <string name="spot">Spot:</string>
     <string name="township">Township:</string>
     <string name="graves">Graves:</string>
+    <string name="more">More</string>
 
     <string-array name="string_array_states">
         <item>Alabama</item>

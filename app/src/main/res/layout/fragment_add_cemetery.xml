@@ -14,25 +14,36 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize">
 
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                app:layout_scrollFlags="scroll|snap"
+                android:layout_height="match_parent">
+
+
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/addCemToolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:title="Add Cemetery"
                 app:titleTextColor="@color/white" />
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.core.widget.NestedScrollView
+        <ScrollView
             android:id="@+id/nsvAddCemForm"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_anchor="@id/appBar"
-            app:layout_anchorGravity="bottom"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilLayoutCemName"
@@ -54,7 +65,6 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tilCemAddress"
-                    app:startIconDrawable="@drawable/ic_baseline_add_location_24"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -63,7 +73,8 @@
                     app:helperText="@string/address"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvLocationTitle">
+                    app:layout_constraintTop_toBottomOf="@+id/tvLocationTitle"
+                    app:startIconDrawable="@drawable/ic_baseline_add_location_24">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etCemAddress"
@@ -222,24 +233,24 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etCemFirstYear"
-                        android:inputType="numberSigned"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:inputType="numberSigned" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <ProgressBar
                     android:id="@+id/pbLocation"
-                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/tilState"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tilLayoutCemName" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
+        </ScrollView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabAddCem"

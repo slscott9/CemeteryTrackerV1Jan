@@ -6,6 +6,7 @@ import com.sscott.cemeterytrackerv1.data.models.network.UserDto
 import com.sscott.cemeterytrackerv1.data.models.network.cemdto.CemeteryDto
 import com.sscott.cemeterytrackerv1.data.models.network.gravedto.GraveDto
 import com.sscott.cemeterytrackerv1.other.Resource
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 interface RemoteDataSource {
@@ -17,6 +18,8 @@ interface RemoteDataSource {
     suspend fun allCemeteries() : List<CemeteryDto>
 
     suspend fun myCemeteries(userName : String) : List<CemeteryDto>
+
+     suspend fun getCemetery(id : Long) : CemeteryDto
 
     suspend fun sendCemToNetwork(cemeteryDto: CemeteryDto) : CemeteryDto
 

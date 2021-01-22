@@ -26,6 +26,6 @@ interface CemeteryDao {
     suspend fun insertGrave(grave: Grave) : Long
 
     @Query("select * from cemetery_v1_table where cemeteryId = :cemId")
-    fun getCemetery(cemId : Long) : LiveData<Cemetery>
+    suspend fun getCemetery(cemId : Long) : Cemetery
 
 }

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="grave"
+            type="com.sscott.cemeterytrackerv1.data.models.domain.GraveDomain" />
+        <variable
+            name="listener"
+            type="com.sscott.cemeterytrackerv1.ui.adapters.GraveListAdapter.GraveListListener" />
+    </data>
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cvParent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clParentInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvGraveName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:text="Jane Doe"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMore"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:text="@string/more"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvGraveName" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/clMoreInfo"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="@id/clParentInfo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnMore">
+
+                <TextView
+                    android:id="@+id/tvBirthDateTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/birth_date"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/tvMarriageYearTitle"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/tvMarriageYearTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/tvMarriageYearTitle" />
+
+                <TextView
+                    android:id="@+id/tvDeathDateTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/death_date"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/tvBirthDateTitle"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/tvBirthDateTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/tvBirthDateTitle" />
+
+                <TextView
+                    android:id="@+id/tvMarriageYearTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/marriage_year"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/tvAddedByTitle"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/tvAddedByTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAddedByTitle" />
+
+                <TextView
+                    android:id="@+id/tvCommentTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="32dp"
+                    android:text="@string/comment"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/tvGraveNumTitle"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/tvGraveNumTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/tvGraveNumTitle" />
+
+                <TextView
+                    android:id="@+id/tvGraveNumTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/grave_num"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/tvDeathDateTitle"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/tvDeathDateTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDeathDateTitle" />
+
+                <TextView
+                    android:id="@+id/tvAddedByTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="32dp"
+                    android:text="@string/added_by"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/tvBirthDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="@+id/tvMarriageYear"
+                    app:layout_constraintTop_toBottomOf="@+id/tvMarriageYear"
+                    tools:text="Birth date 08/24/1994" />
+
+                <TextView
+                    android:id="@+id/tvDeathDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="@+id/tvBirthDate"
+                    app:layout_constraintTop_toBottomOf="@+id/tvBirthDate"
+                    tools:text="Death date 01/06/1" />
+
+                <TextView
+                    android:id="@+id/tvMarriageYear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="@+id/tvAddedBy"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAddedBy"
+                    tools:text="Marriage year 01/06/1" />
+
+                <TextView
+                    android:id="@+id/tvComment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="@+id/tvGraveNum"
+                    app:layout_constraintTop_toBottomOf="@+id/tvGraveNum"
+                    tools:text="she was a good person" />
+
+                <TextView
+                    android:id="@+id/tvGraveNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="@+id/tvDeathDate"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDeathDate"
+                    tools:text="grave number 1" />
+
+                <TextView
+                    android:id="@+id/tvAddedBy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvAddedByTitle"
+                    app:layout_constraintStart_toEndOf="@+id/tvAddedByTitle"
+                    app:layout_constraintTop_toTopOf="@+id/tvAddedByTitle"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:text="sscott9" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

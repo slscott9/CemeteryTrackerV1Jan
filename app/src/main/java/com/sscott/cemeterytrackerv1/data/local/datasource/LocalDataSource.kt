@@ -15,5 +15,5 @@ interface LocalDataSource {
 
     suspend fun insertGrave(grave: Grave) : Long
 
-    fun getCemetery(cemId : Long) : LiveData<Cemetery>
+    suspend fun getCemetery(cemId : Long) : Cemetery
 }

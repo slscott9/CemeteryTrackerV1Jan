@@ -26,7 +26,7 @@ class LocalDataSourceImpl @Inject constructor(
         return dao.insertGrave(grave)
     }
 
-    override fun getCemetery(cemId: Long): LiveData<Cemetery> {
+    override suspend fun getCemetery(cemId: Long): Cemetery {
         return dao.getCemetery(cemId)
     }
 }

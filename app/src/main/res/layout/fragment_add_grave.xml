@@ -24,7 +24,7 @@
                 app:titleTextColor="@color/white" />
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.core.widget.NestedScrollView
+        <ScrollView
             android:id="@+id/nsvAddGraveForm"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -154,7 +154,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        </androidx.core.widget.NestedScrollView>
+        </ScrollView>
 
         <ProgressBar
             android:id="@+id/pbAddGrave"

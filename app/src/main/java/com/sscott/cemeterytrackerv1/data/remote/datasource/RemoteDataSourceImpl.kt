@@ -5,6 +5,9 @@ import com.sscott.cemeterytrackerv1.data.models.network.cemdto.CemeteryDto
 import com.sscott.cemeterytrackerv1.data.models.network.gravedto.GraveDto
 import com.sscott.cemeterytrackerv1.other.Resource
 import com.sscott.cemeterytrackerv1.other.ResponseHandler
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import timber.log.Timber
 import javax.inject.Inject
 
 class RemoteDataSourceImpl @Inject constructor(
@@ -25,6 +28,11 @@ class RemoteDataSourceImpl @Inject constructor(
 
     override suspend fun myCemeteries(userName : String): List<CemeteryDto> {
         return cemeteryApi.myCemeteries(userName)
+    }
+
+    override suspend fun getCemetery(id: Long): CemeteryDto {
+        Timber.i("Cemetery id is $id")
+        return  cemeteryApi.getCemetery(id)
     }
 
     override suspend fun sendCemToNetwork(cemeteryDto: CemeteryDto): CemeteryDto {

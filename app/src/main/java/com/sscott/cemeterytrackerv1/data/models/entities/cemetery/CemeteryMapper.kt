@@ -6,7 +6,7 @@ import com.sscott.cemeterytrackerv1.data.models.entities.grave.Grave
 import com.sscott.cemeterytrackerv1.data.models.mapper.DomainMapper
 
 class CemeteryMapper : DomainMapper<Cemetery, CemeteryDomain>{
-    override suspend fun mapToDomainModelList(model: List<Cemetery>): List<CemeteryDomain> {
+    override suspend fun toDomainList(model: List<Cemetery>): List<CemeteryDomain> {
         return model.map {
             CemeteryDomain(
                     cemeteryId = it.cemeteryId,
@@ -27,7 +27,7 @@ class CemeteryMapper : DomainMapper<Cemetery, CemeteryDomain>{
         }
     }
 
-    override suspend fun mapToDomainModel(model: Cemetery): CemeteryDomain {
+    override suspend fun toDomain(model: Cemetery): CemeteryDomain {
         return CemeteryDomain(
                 cemeteryId = model.cemeteryId,
                 name = model.name,
@@ -46,7 +46,7 @@ class CemeteryMapper : DomainMapper<Cemetery, CemeteryDomain>{
         )
     }
 
-    override suspend fun mapFromDomainModel(domainModel: CemeteryDomain): Cemetery {
+    override suspend fun fromDomain(domainModel: CemeteryDomain): Cemetery {
         return Cemetery(
                 cemeteryId = domainModel.cemeteryId,
                 name = domainModel.name,
@@ -64,7 +64,7 @@ class CemeteryMapper : DomainMapper<Cemetery, CemeteryDomain>{
         )
     }
 
-    private fun graveDomainListToDto(graveDomainList: List<GraveDomain>) : List<Grave> {
+    private fun listToDto(graveDomainList: List<GraveDomain>) : List<Grave> {
         return graveDomainList.map{
             Grave(
                     graveId = it.graveId,
@@ -82,7 +82,7 @@ class CemeteryMapper : DomainMapper<Cemetery, CemeteryDomain>{
         }
     }
 
-    fun cemGravesToDomain(cemGraves: List<CemeteryGraves>): List<CemeteryDomain> {
+    fun toCemDomainList(cemGraves: List<CemeteryGraves>): List<CemeteryDomain> {
         return cemGraves.map {
            CemeteryDomain(
                    cemeteryId = it.cemetery.cemeteryId,
@@ -98,12 +98,12 @@ class CemeteryMapper : DomainMapper<Cemetery, CemeteryDomain>{
                    epochTimeAdded = it.cemetery.epochTimeAdded,
                    addedBy = it.cemetery.addedBy,
                    graveCount = it.cemetery.graveCount,
-                   graves = graveListToDomain(it.graves)
+                   graves = toDomainList(it.graves)
            )
         }
     }
 
-    private fun graveListToDomain(graveDtoList : List<Grave>) : List<GraveDomain>{
+    private fun toDomainList(graveDtoList : List<Grave>) : List<GraveDomain>{
         return graveDtoList.map {
             GraveDomain(
                     graveId = it.graveId,

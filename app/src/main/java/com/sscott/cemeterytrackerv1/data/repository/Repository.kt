@@ -9,6 +9,7 @@ import com.sscott.cemeterytrackerv1.data.models.entities.grave.Grave
 import com.sscott.cemeterytrackerv1.data.models.network.UserDto
 import com.sscott.cemeterytrackerv1.data.models.network.cemdto.CemeteryDto
 import com.sscott.cemeterytrackerv1.other.Resource
+import kotlinx.coroutines.flow.Flow
 
 interface Repository {
 
@@ -26,7 +27,9 @@ interface Repository {
 
     suspend fun insertCemetery(cemetery: CemeteryDomain) : Long
 
-    fun getCemetery(cemId : Long) : LiveData<CemeteryDomain>
+    suspend fun getCemetery(cemId : Long) : CemeteryDomain
+
+    suspend fun getNetworkCemetery(id : Long) : Resource<CemeteryDomain>
 
 
     //insert and get database graves

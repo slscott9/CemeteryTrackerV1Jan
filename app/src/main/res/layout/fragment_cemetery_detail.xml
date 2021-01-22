@@ -6,21 +6,23 @@
 
     <data>
         <variable
-            name="viewModel"
-            type="com.sscott.cemeterytrackerv1.ui.detail.cemetery.CemeteryDetailViewModel"/>
+            name="cemetery"
+            type="com.sscott.cemeterytrackerv1.data.models.domain.CemeteryDomain"/>
     </data>
 
    <androidx.coordinatorlayout.widget.CoordinatorLayout
+       android:id="@+id/coorlCemDetail"
        android:layout_width="match_parent"
        android:layout_height="match_parent">
 
        <androidx.constraintlayout.widget.ConstraintLayout
+           android:id="@+id/clCemDetail"
            android:layout_width="match_parent"
            android:layout_height="match_parent">
 
            <TextView
                android:id="@+id/tvCemName"
-               android:text="@{viewModel.cemetery.name}"
+               android:text="@{cemetery.name}"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_marginStart="16dp"
@@ -36,7 +38,7 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_marginTop="8dp"
-               android:text="@{viewModel.cemetery.location}"
+               android:text="@{cemetery.location}"
                app:layout_constraintEnd_toEndOf="@+id/tvLocationTitle"
                app:layout_constraintHorizontal_bias="0.0"
                app:layout_constraintStart_toStartOf="@+id/tvLocationTitle"
@@ -48,7 +50,7 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_marginTop="8dp"
-               android:text="@{viewModel.cemetery.state}"
+               android:text="@{cemetery.state}"
                app:layout_constraintEnd_toEndOf="@+id/tvCemLocation"
                app:layout_constraintHorizontal_bias="0.0"
                app:layout_constraintStart_toStartOf="@+id/tvCemLocation"
@@ -60,7 +62,7 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_marginTop="8dp"
-               android:text="@{viewModel.cemetery.county}"
+               android:text="@{cemetery.county}"
                app:layout_constraintEnd_toEndOf="@+id/tvCemState"
                app:layout_constraintHorizontal_bias="0.0"
                app:layout_constraintStart_toStartOf="@+id/tvCemState"
@@ -72,7 +74,7 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_marginStart="8dp"
-               android:text="@{viewModel.cemetery.townShip}"
+               android:text="@{cemetery.townShip}"
                app:layout_constraintBottom_toBottomOf="@+id/tvTownshipTitle"
                app:layout_constraintEnd_toEndOf="parent"
                app:layout_constraintHorizontal_bias="0.0"
@@ -85,7 +87,7 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_marginTop="8dp"
-               android:text="@{viewModel.cemetery.spot}"
+               android:text="@{cemetery.spot}"
                app:layout_constraintEnd_toEndOf="@+id/tvCemTownShip"
                app:layout_constraintHorizontal_bias="0.0"
                app:layout_constraintStart_toStartOf="@+id/tvCemTownShip"
@@ -97,7 +99,7 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_marginStart="8dp"
-               android:text="@{viewModel.cemetery.firstYear}"
+               android:text="@{cemetery.firstYear}"
                app:layout_constraintBottom_toBottomOf="@+id/tvEstablished"
                app:layout_constraintEnd_toEndOf="parent"
                app:layout_constraintHorizontal_bias="0.0"
@@ -110,7 +112,7 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_marginTop="8dp"
-               android:text="@{viewModel.cemetery.cemSection}"
+               android:text="@{cemetery.cemSection}"
                app:layout_constraintEnd_toEndOf="@+id/tvRange"
                app:layout_constraintHorizontal_bias="0.0"
                app:layout_constraintStart_toStartOf="@+id/tvRange"
@@ -122,7 +124,7 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_marginStart="8dp"
-               android:text="@{viewModel.cemetery.addedBy}"
+               android:text="@{cemetery.addedBy}"
                app:layout_constraintBottom_toBottomOf="@+id/tvAddedByTitle"
                app:layout_constraintEnd_toStartOf="@+id/tvGraveCountTitle"
                app:layout_constraintHorizontal_bias="0.04"
@@ -132,7 +134,7 @@
 
            <TextView
                android:id="@+id/tvGraveCount"
-               setCemGraveCount="@{viewModel.cemetery}"
+               setCemGraveCount="@{cemetery}"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_marginTop="8dp"
@@ -232,7 +234,7 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_marginTop="8dp"
-               android:text="@{viewModel.cemetery.cemRange}"
+               android:text="@{cemetery.cemRange}"
                app:layout_constraintEnd_toEndOf="@+id/tvCemSpot"
                app:layout_constraintHorizontal_bias="0.0"
                app:layout_constraintStart_toStartOf="@+id/tvCemSpot"
@@ -252,6 +254,7 @@
 
            <androidx.recyclerview.widget.RecyclerView
                android:id="@+id/rvGraves"
+               app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                android:layout_width="0dp"
                android:layout_height="0dp"
                android:layout_marginTop="8dp"
@@ -263,8 +266,23 @@
                app:layout_constraintVertical_bias="1.0" />
        </androidx.constraintlayout.widget.ConstraintLayout>
 
+       <ProgressBar
+           android:id="@+id/pbGetGrave"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           app:layout_anchor="@id/clCemDetail"
+           app:layout_anchorGravity="center"/>
 
 
-
+       <com.google.android.material.floatingactionbutton.FloatingActionButton
+           android:id="@+id/fabAddGrave"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+           app:layout_anchor="@id/clCemDetail"
+           app:layout_anchorGravity="bottom|right"
+           android:layout_margin="16dp"
+           app:srcCompat="@drawable/ic_baseline_add_24"
+           android:contentDescription="@string/image_add" />
    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
