@@ -78,7 +78,7 @@ class CemeteryDtoMapper : DomainMapper<CemeteryDto, CemeteryDomain> {
                     graveNumber = it.graveNumber,
                     epochTimeAdded = it.epochTimeAdded,
                     addedBy = it.addedBy,
-                    cemetery = it.cemeteryId
+                    cemId = it.cemeteryId
             )
         }
     }
@@ -117,7 +117,7 @@ class CemeteryDtoMapper : DomainMapper<CemeteryDto, CemeteryDomain> {
                     graveNumber = it.graveNumber ?: "",
                     epochTimeAdded = it.epochTimeAdded!!,
                     addedBy = it.addedBy ?: "",
-                    cemeteryId = it.cemetery!!
+                    cemeteryId = it.cemId!!
 
             )
         }

@@ -19,9 +19,9 @@ class CemeteryDetailViewModel @ViewModelInject constructor(
         @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-//    val cemetery = liveData {
-//        emit(repository.getCemetery(savedStateHandle.get<Long>("cemeteryId")!!))
-//    }
+    /*
+        makes network request for Cemetery (with grave list) grave list is used to populate rvGraveList
+     */
 
 
     val cemResponse: LiveData<Resource<CemeteryDomain>> =

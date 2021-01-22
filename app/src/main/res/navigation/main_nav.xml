@@ -93,6 +93,9 @@
             app:destination="@id/graveDetailFragment"
             app:popUpTo="@id/addGraveFragment"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="cemeteryId"
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/recentlyAddedCemFragment"

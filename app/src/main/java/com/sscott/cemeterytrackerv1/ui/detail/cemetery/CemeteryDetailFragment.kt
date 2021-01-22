@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.sscott.cemeterytrackerv1.R
 import com.sscott.cemeterytrackerv1.databinding.FragmentCemeteryDetailBinding
@@ -45,6 +46,10 @@ class CemeteryDetailFragment : Fragment() {
         })
 
         binding.rvGraves.adapter = graveListAdapter
+
+        binding.fabAddGrave.setOnClickListener {
+            findNavController().navigate(CemeteryDetailFragmentDirections.actionCemeteryDetailFragmentToAddGraveFragment(navArgs.cemeteryId))
+        }
 
 
 

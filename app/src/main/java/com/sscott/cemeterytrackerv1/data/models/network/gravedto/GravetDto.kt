@@ -13,23 +13,9 @@ data class GraveDto(
     val graveNumber : String?,
     val epochTimeAdded : Long?,
     val addedBy : String?,
-    val cemetery : Long?
+    val cemId : Long?
 
 )
 
-suspend fun GraveDto.asDomainModel() : GraveDomain {
-    return GraveDomain(
-            graveId!!,
-            firstName ?: "",
-            lastName ?: "",
-            birthDate ?: "",
-            deathDate ?: "",
-            marriageYear ?: "",
-            comment ?: "",
-            graveNumber ?: "",
-            epochTimeAdded = epochTimeAdded!!,
-            addedBy = addedBy!!,
-            cemeteryId= cemetery!!
-    )
-}
+
 

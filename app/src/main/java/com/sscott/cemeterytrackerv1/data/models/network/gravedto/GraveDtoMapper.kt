@@ -17,7 +17,7 @@ class GraveDtoMapper : DomainMapper<GraveDto, GraveDomain> {
                     graveNumber = it.graveNumber ?: "",
                     epochTimeAdded = it.epochTimeAdded!!,
                     addedBy = it.addedBy ?: "",
-                    cemeteryId = it.cemetery!!
+                    cemeteryId = it.cemId!!
             )
         }
     }
@@ -34,7 +34,7 @@ class GraveDtoMapper : DomainMapper<GraveDto, GraveDomain> {
                 graveNumber = model.graveNumber ?: "",
                 epochTimeAdded = model.epochTimeAdded!!,
                 addedBy = model.addedBy ?: "",
-                cemeteryId = model.cemetery!!
+                cemeteryId = model.cemId!!
         )
     }
 
@@ -50,7 +50,7 @@ class GraveDtoMapper : DomainMapper<GraveDto, GraveDomain> {
                 graveNumber = domainModel.graveNumber,
                 epochTimeAdded = domainModel.epochTimeAdded,
                 addedBy = domainModel.addedBy,
-                cemetery = domainModel.cemeteryId
+            cemId = domainModel.cemeteryId
         )
     }
 }

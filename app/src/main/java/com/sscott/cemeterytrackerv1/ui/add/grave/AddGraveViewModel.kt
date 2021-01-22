@@ -7,15 +7,25 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sscott.cemeterytrackerv1.data.models.domain.GraveDomain
 import com.sscott.cemeterytrackerv1.data.repository.Repository
+import com.sscott.cemeterytrackerv1.other.InsertResponse
 import com.sscott.cemeterytrackerv1.other.Resource
+import com.sscott.cemeterytrackerv1.other.Status
 import kotlinx.coroutines.launch
+
+/*
+    insert grave in local db -> returns id
+
+    send grave to network error? -> show toast let work manager sync
+
+    success -> move on to cem detail
+ */
 
 class AddGraveViewModel @ViewModelInject constructor(
         private val repository: Repository
 ): ViewModel() {
 
-    private val _addGraveResponse = MutableLiveData<Resource<GraveDomain>>()
-    val addGraveResponse : LiveData<Resource<GraveDomain>> = _addGraveResponse
+    private val _addGraveResponse = MutableLiveData<Resource<InsertResponse>>()
+    val addGraveResponse : LiveData<Resource<InsertResponse>> = _addGraveResponse
 
     fun sendGraveToNetwork(graveDomain: GraveDomain) {
 
@@ -23,8 +33,24 @@ class AddGraveViewModel @ViewModelInject constructor(
 
         viewModelScope.launch {
 
-            repository.insertGrave(graveDomain)
-            _addGraveResponse.postValue(repository.sendGraveToNetwork(graveDomain))
+            val id = repository.insertGrave(graveDomain)
+
+            val response = repository.sendGraveToNetwork(graveDomain)
+
+            when(response.status){
+                Status.SUCCESS -> {
+                    _addGraveResponse.postValue(
+                        Resource.success(InsertResponse(id = id, message = "")
+                        ))
+                }
+                Status.ERROR -> {
+                    _addGraveResponse.postValue(
+                        Resource.error( data = InsertResponse(id = id, message = ""),
+                            msg = response.message.toString()
+                        ))
+
+                }
+            }
         }
     }
 
