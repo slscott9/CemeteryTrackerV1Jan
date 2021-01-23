@@ -32,10 +32,11 @@ class AddCemViewModel @ViewModelInject constructor(
             Timber.i(id.toString())
 
 
-            val response = repository.sendCemToNetwork(cemetery)
+            val response = repository.sendCem(cemetery)
 
             when(response.status){
                 Status.SUCCESS -> {
+                    repository.updateCemetery(cemetery.copy(isSynced = true))
                     _insertResponse.postValue(Resource.success(InsertResponse(id = id, message = "")))
                 }
                 Status.ERROR -> {

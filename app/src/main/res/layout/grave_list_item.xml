@@ -26,13 +26,12 @@
 
             <TextView
                 android:id="@+id/tvGraveName"
+                setGraveName="@{grave}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
-                setGraveName="@{grave}"
-                android:textSize="24sp"
-                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:textAppearance="?attr/textAppearanceHeadline6"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -63,6 +62,7 @@
 
                 <TextView
                     android:id="@+id/tvBirthDateTitle"
+                    android:textAppearance="?attr/textAppearanceBody2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -75,6 +75,7 @@
 
                 <TextView
                     android:id="@+id/tvDeathDateTitle"
+                    android:textAppearance="?attr/textAppearanceBody2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -87,6 +88,7 @@
 
                 <TextView
                     android:id="@+id/tvMarriageYearTitle"
+                    android:textAppearance="?attr/textAppearanceBody2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -99,6 +101,7 @@
 
                 <TextView
                     android:id="@+id/tvCommentTitle"
+                    android:textAppearance="?attr/textAppearanceBody2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -113,6 +116,7 @@
 
                 <TextView
                     android:id="@+id/tvGraveNumTitle"
+                    android:textAppearance="?attr/textAppearanceBody2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -125,6 +129,7 @@
 
                 <TextView
                     android:id="@+id/tvAddedByTitle"
+                    android:textAppearance="?attr/textAppearanceBody2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"

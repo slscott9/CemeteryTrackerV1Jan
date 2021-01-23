@@ -15,12 +15,24 @@ class LocalDataSourceImpl @Inject constructor(
         return dao.insertCemetery(cemetery)
     }
 
+    override suspend fun updateCemetery(cemetery: Cemetery) {
+        return dao.updateCemetery(cemetery)
+    }
+
+    override suspend fun updateGrave(grave: Grave) {
+        return dao.updateGrave(grave)
+    }
+
     override suspend fun getMostRecentLocalInsert(): Long {
         return dao.getMostRecentLocalInsert()
     }
 
-    override suspend fun unSyncedCemeteries(mostRecentServerInsert: Long): List<CemeteryGraves> {
-        return dao.unSyncedCemeteries(mostRecentServerInsert)
+    override suspend fun unSyncedCemeteries(isSynced: Boolean): List<CemeteryGraves> {
+        return dao.unsyncedCemeteries(isSynced)
+    }
+
+    override suspend fun unSyncedGraves(isSynced: Boolean): List<Grave> {
+        return dao.unsyncedGraves(isSynced)
     }
 
     override suspend fun insertGrave(grave: Grave): Long {
@@ -33,5 +45,9 @@ class LocalDataSourceImpl @Inject constructor(
 
     override fun getCemsFromSearch(searchQuery: String): Flow<List<Cemetery>> {
         return dao.getCemsFromSearch(searchQuery)
+    }
+
+    override fun allCemeteries(): Flow<List<Cemetery>> {
+        return dao.allCemeteries()
     }
 }

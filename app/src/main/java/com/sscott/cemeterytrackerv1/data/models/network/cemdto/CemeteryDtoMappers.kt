@@ -22,7 +22,8 @@ class CemeteryDtoMapper : DomainMapper<CemeteryDto, CemeteryDomain> {
                     epochTimeAdded = it.epochTimeAdded!!,
                     addedBy = it.addedBy ?: "",
                     graveCount = it.graveCount ?: 0,
-                    graves = graveDtoListToDomain(it.graves ?: emptyList())
+                    graves = graveDtoListToDomain(it.graves ?: emptyList()),
+                    isSynced = true
             )
         }
     }
@@ -42,7 +43,8 @@ class CemeteryDtoMapper : DomainMapper<CemeteryDto, CemeteryDomain> {
                 epochTimeAdded = model.epochTimeAdded!!,
                 addedBy = model.addedBy ?: "",
                 graveCount = model.graveCount ?: 0,
-                graves = graveDtoListToDomain(model.graves ?: emptyList())
+                graves = graveDtoListToDomain(model.graves ?: emptyList()),
+                isSynced = true
         )
     }
 
@@ -65,7 +67,7 @@ class CemeteryDtoMapper : DomainMapper<CemeteryDto, CemeteryDomain> {
         )
     }
 
-    private fun graveDomainListToDto(graveDomainList: List<GraveDomain>) : List<GraveDto> {
+    fun graveDomainListToDto(graveDomainList: List<GraveDomain>) : List<GraveDto> {
         return graveDomainList.map{
             GraveDto(
                     graveId = it.graveId,
@@ -117,7 +119,8 @@ class CemeteryDtoMapper : DomainMapper<CemeteryDto, CemeteryDomain> {
                     graveNumber = it.graveNumber ?: "",
                     epochTimeAdded = it.epochTimeAdded!!,
                     addedBy = it.addedBy ?: "",
-                    cemeteryId = it.cemId!!
+                    cemeteryId = it.cemId!!,
+                    isSynced = true
 
             )
         }

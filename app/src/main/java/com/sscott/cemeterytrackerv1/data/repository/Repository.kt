@@ -8,6 +8,7 @@ import com.sscott.cemeterytrackerv1.data.models.entities.cemetery.Cemetery
 import com.sscott.cemeterytrackerv1.data.models.entities.grave.Grave
 import com.sscott.cemeterytrackerv1.data.models.network.UserDto
 import com.sscott.cemeterytrackerv1.data.models.network.cemdto.CemeteryDto
+import com.sscott.cemeterytrackerv1.data.models.network.gravedto.GraveDto
 import com.sscott.cemeterytrackerv1.other.Resource
 import kotlinx.coroutines.flow.Flow
 
@@ -18,35 +19,62 @@ interface Repository {
 
     suspend fun register(userDto: UserDto): Resource<UserDto>
 
-    //insert and get cems
-    fun allCemeteries(): Flow<List<CemeteryDomain>>
+    //Cemetery Network
 
-    fun myCemeteries(userName : String): Flow<List<CemeteryDomain>>
+    fun allNetworkCems(): Flow<List<CemeteryDomain>>
 
-    suspend fun sendCemToNetwork(cemetery: CemeteryDomain): Resource<CemeteryDto>
+    fun myNetworkCems(userName : String): Flow<List<CemeteryDomain>>
+
+    suspend fun searchNetworkCems(query : String) : Flow<List<CemeteryDomain>>
+
+    suspend fun sendCem(cemetery: CemeteryDomain): Resource<CemeteryDto>
+
+    suspend fun sendCemList(cemList : List<CemeteryDomain>) : Resource<List<CemeteryDomain>>
+
+    suspend fun getNetworkCem(id : Long) : Resource<CemeteryDomain>
+
+
+
+
+    //Cemetery Local
+
+    fun allLocalCems() : Flow<List<CemeteryDomain>>
+
+    fun searchLocalCems(searchQuery: String) : Flow<List<CemeteryDomain>>
 
     suspend fun insertCemetery(cemetery: CemeteryDomain) : Long
 
-    suspend fun getCemetery(cemId : Long) : CemeteryDomain
+    suspend fun updateCemetery(cemetery: CemeteryDomain)
 
-    suspend fun getNetworkCemetery(id : Long) : Resource<CemeteryDomain>
+    suspend fun getLocalCem(cemId : Long) : CemeteryDomain
 
-    fun getCemsFromSearch(searchQuery: String) : Flow<List<CemeteryDomain>>
+    suspend fun unSyncedCemeteries(isSynced : Boolean): List<CemeteryDomain>
 
 
 
-    //insert and get database graves
+    //Grave Network
+
+    suspend fun sendGrave(grave : GraveDomain) : Resource<GraveDomain>
+
+    suspend fun sendGraveList(graveList : List<GraveDomain>) : Resource<List<GraveDomain>>
+
+
+
+    //Grave Local
+
     suspend fun insertGrave(grave: GraveDomain) : Long
 
+    suspend fun updateGrave(grave: GraveDomain)
 
-    //Sync cemeteries and graves
+    suspend fun unSyncedGraves(isSynced: Boolean) : List<GraveDomain>
+
+
+
     suspend fun getMostRecentTimes(): Sync
 
-    suspend fun unSyncedCemeteries(mostRecentServerInsert: Long): List<CemeteryDomain>
 
-    suspend fun sendUnsyncedCemeteries(unsyncedCemeteries : List<CemeteryDomain>) : Resource<List<CemeteryDomain>>
 
-    suspend fun sendGraveToNetwork(grave : GraveDomain) : Resource<GraveDomain>
+
 
 
 

@@ -10,34 +10,46 @@ import timber.log.Timber
 
 class CemeteryRefreshWorker @WorkerInject constructor(
         @Assisted workerParameters: WorkerParameters,
-        @Assisted context : Context,
+        @Assisted context: Context,
         private val repository: Repository
-): CoroutineWorker(context, workerParameters) {
+) : CoroutineWorker(context, workerParameters) {
 
     //default is Dispatchers.Default
 
     /*
-        Should be a cemetery in the database
-        local insert > server insert(1)
+
      */
 
     companion object {
         const val CEMETERY_WORKER = "CEM_REFRESH_WORKER_V1"
     }
+
     override suspend fun doWork(): Result {
         Timber.i("doWork() called")
         return try {
-            val syncInfo = repository.getMostRecentTimes()
 
-            if(syncInfo.mostRecentLocalInsert > syncInfo.mostRecentServerInsert){
-                Timber.i("mostRecentLocalInsert > mostRecentServerInsert")
-                Timber.i("${syncInfo.mostRecentLocalInsert} > ${syncInfo.mostRecentServerInsert}")
-                val unsyncedCemeteries = repository.unSyncedCemeteries(syncInfo.mostRecentServerInsert) //get all cemeteries/graves whose epoch time > mostRecentServerInsert
+            val unSyncedCemeteries = repository.unSyncedCemeteries(false)
+            if(unSyncedCemeteries.isNotEmpty()){
+                Timber.i("Unsynced cems is not empty sending to network ${unSyncedCemeteries}")
+                repository.sendCemList(unSyncedCemeteries)
 
-                repository.sendUnsyncedCemeteries(unsyncedCemeteries)
+                unSyncedCemeteries.forEach {
+                    repository.updateCemetery(it.copy(isSynced = true))
+                }
             }
+
+            val unsyncedGraves = repository.unSyncedGraves(false)
+            if(unsyncedGraves.isNotEmpty()){
+                Timber.i("Unsynced graves is not empty sending to network ${unsyncedGraves}")
+                repository.sendGraveList(unsyncedGraves)
+
+                unsyncedGraves.forEach {
+                    repository.updateGrave(it.copy(isSynced = true))
+                }
+            }
+
             Result.success()
-        }catch (e : Exception){
+        } catch (e: Exception) {
             Timber.i("Work failed $e")
             Result.retry()
         }

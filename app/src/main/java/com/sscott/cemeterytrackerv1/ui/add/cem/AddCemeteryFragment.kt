@@ -158,6 +158,7 @@ class AddCemeteryFragment : Fragment() {
                                         ?: "",
                                 graveCount = 0,
                                 graves = emptyList(),
+                                isSynced = false
                         )
                 )
             }

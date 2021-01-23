@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sscott.cemeterytrackerv1.R
 import com.sscott.cemeterytrackerv1.databinding.FragmentHomeBinding
+import com.sscott.cemeterytrackerv1.other.Constants
 import com.sscott.cemeterytrackerv1.other.Constants.KEY_LOGGED_IN_EMAIL
 import com.sscott.cemeterytrackerv1.other.Constants.KEY_PASSWORD
 import com.sscott.cemeterytrackerv1.other.Constants.NO_EMAIL
@@ -21,6 +22,7 @@ import com.sscott.cemeterytrackerv1.other.Constants.NO_PASSWORD
 import com.sscott.cemeterytrackerv1.ui.adapters.ALLCEMS_INDEX
 import com.sscott.cemeterytrackerv1.ui.adapters.CemViewPagerAdapter
 import com.sscott.cemeterytrackerv1.ui.adapters.MYCEMS_INDEX
+import com.sscott.cemeterytrackerv1.ui.login.LoginFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -29,6 +31,20 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding : FragmentHomeBinding
     private val viewModel : HomeFragmentViewModel by activityViewModels()
+
+    @Inject
+    lateinit var sharedPreferences : SharedPreferences
+
+    private var userName : String? = null
+    private var userPassword : String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if(!isLoggedIn()){
+            findNavController().navigate(LoginFragmentDirections.actionGlobalHomeFragment())
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,15 +81,19 @@ class HomeFragment : Fragment() {
                 extras
             )
         }
+    }
 
-        binding.swipeRefreshCemeteries.setOnRefreshListener {
+    private fun isLoggedIn() : Boolean{
+        userName = sharedPreferences.getString(
+            Constants.KEY_LOGGED_IN_USERNAME,
+            Constants.NO_USERNAME
+        ) ?: Constants.NO_USERNAME
+        userPassword = sharedPreferences.getString(
+            Constants.KEY_PASSWORD,
+            Constants.NO_PASSWORD
+        ) ?: Constants.NO_PASSWORD
 
-            viewModel.refreshCemsList()
-            binding.swipeRefreshCemeteries.isRefreshing = false
-
-        }
-
-
+        return userName != Constants.NO_USERNAME && userPassword != Constants.NO_PASSWORD
     }
 
 

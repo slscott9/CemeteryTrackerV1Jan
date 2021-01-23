@@ -66,7 +66,7 @@ class CemeteryDetailFragment : Fragment() {
                     Status.ERROR -> {
                         Timber.i("Error Status")
                         binding.pbGetGrave.visibility = View.GONE
-                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     }
                     Status.LOADING -> {
                         Timber.i("Loading Status")

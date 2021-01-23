@@ -76,7 +76,8 @@ class AddGraveFragment : Fragment() {
                     addedBy = sharedPreferences.getString(Constants.KEY_LOGGED_IN_USERNAME, Constants.NO_USERNAME) ?: "",
                     cemeteryId= navArgs.cemeteryId,
                     epochTimeAdded = OffsetDateTime.now().toEpochSecond(),
-                    graveId = UUID.randomUUID().mostSignificantBits
+                    graveId = UUID.randomUUID().mostSignificantBits,
+                        isSynced = false
 
                 )
             )

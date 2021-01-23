@@ -26,7 +26,7 @@ class CemeteryDetailViewModel @ViewModelInject constructor(
 
     val cemResponse: LiveData<Resource<CemeteryDomain>> =
         liveData(viewModelScope.coroutineContext) {
-            emit(repository.getNetworkCemetery(savedStateHandle.get<Long>("cemeteryId")!!))
+            emit(repository.getNetworkCem(savedStateHandle.get<Long>("cemeteryId")!!))
         }
 
 

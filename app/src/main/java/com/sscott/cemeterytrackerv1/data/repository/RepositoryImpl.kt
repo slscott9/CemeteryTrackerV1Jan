@@ -41,6 +41,8 @@ class RepositoryImpl  (
     private val mapper: ModelMapperI
 )  : Repository{
 
+    //Authentication
+
     override suspend fun login(userDto: UserDto): Resource<UserDto> = withContext(Dispatchers.IO){
         try {
             responseHandler.handleSuccess(remoteDataSource.login(userDto))
@@ -57,24 +59,69 @@ class RepositoryImpl  (
         }
     }
 
-    override fun allCemeteries(): Flow<List<CemeteryDomain>> {
+
+
+    //Cemetery Network
+
+    override fun allNetworkCems(): Flow<List<CemeteryDomain>> {
         return flow{ emit(mapper.cemDto.toDomainList(remoteDataSource.allCemeteries())) }
     }
 
-        override  fun myCemeteries(userName : String): Flow<List<CemeteryDomain>> {
-            return flow {
-                emit(mapper.cemDto.toDomainList(remoteDataSource.myCemeteries(userName)))
-
-
-            }
+    override  fun myNetworkCems(userName : String): Flow<List<CemeteryDomain>> {
+        return flow {
+            emit(mapper.cemDto.toDomainList(remoteDataSource.myCemeteries(userName)))
         }
+    }
+
+    override suspend fun searchNetworkCems(query: String): Flow<List<CemeteryDomain>> {
+        return flow { emit(mapper.cemDto.toDomainList(remoteDataSource.searchCemeteries(query)))}
+    }
+
+
+
+    override suspend fun sendCem(cemetery: CemeteryDomain) = withContext(Dispatchers.IO){
+        try {
+            responseHandler.handleSuccess(remoteDataSource.sendCem(mapper.cemDto.fromDomain(cemetery)))
+        }catch (e : Exception){
+            responseHandler.handleException(e)
+        }
+    }
+
+    override suspend fun sendCemList(cemList: List<CemeteryDomain>): Resource<List<CemeteryDomain>> {
+        return try {
+
+            Timber.i("Sending unsynced cems to network ")
+            val cemListResponse = remoteDataSource.sendCemList( mapper.cemDto.toNetworkList(cemList))
+            responseHandler.handleSuccess(mapper.cemDto.toDomainList(cemListResponse))
+        }catch (e : Exception){
+            Timber.i("sendUnSyncedCems() repo function error occured $e")
+            responseHandler.handleException(e)
+        }
+    }
+
+    override suspend fun getNetworkCem(id: Long) : Resource<CemeteryDomain> = withContext(Dispatchers.IO){
+        try {
+            val response = remoteDataSource.getCemetery(id)
+            responseHandler.handleSuccess(mapper.cemDto.toDomain(response))
+        }catch (e : Exception){
+            Timber.i(e)
+            responseHandler.handleException(e)
+        }
+    }
 
 
 
 
-    override fun getCemsFromSearch(searchQuery: String): Flow<List<CemeteryDomain>> {
+    //Cemetery Local
+
+    override fun allLocalCems(): Flow<List<CemeteryDomain>> {
+        return localDataSource.allCemeteries().map { mapper.cem.toDomainList(it) }
+    }
+
+
+    override fun searchLocalCems(searchQuery: String): Flow<List<CemeteryDomain>> {
         return localDataSource.getCemsFromSearch(searchQuery)
-                .map { mapper.cem.toDomainList(it) }
+            .map { mapper.cem.toDomainList(it) }
     }
 
     /*
@@ -83,46 +130,35 @@ class RepositoryImpl  (
                Local db is used to display users my cemeteries list
 
              */
-    override suspend fun sendCemToNetwork(cemetery: CemeteryDomain) = withContext(Dispatchers.IO){
-        try {
-            responseHandler.handleSuccess(remoteDataSource.sendCemToNetwork(mapper.cemDto.fromDomain(cemetery)))
-        }catch (e : Exception){
-            responseHandler.handleException(e)
-        }
-    }
+
 
     override suspend fun insertCemetery(cemetery: CemeteryDomain): Long {
         return localDataSource.insertCemetery(mapper.cem.fromDomain(cemetery))
     }
 
-    override suspend fun getCemetery(cemId: Long): CemeteryDomain {
+    override suspend fun updateCemetery(cemetery: CemeteryDomain) {
+        localDataSource.updateCemetery(mapper.cem.fromDomain(cemetery))
+    }
+
+    override suspend fun getLocalCem(cemId: Long): CemeteryDomain {
         return mapper.cem.toDomain(localDataSource.getCemetery(cemId))
     }
 
-    override suspend fun getNetworkCemetery(id: Long) : Resource<CemeteryDomain> = withContext(Dispatchers.IO){
-        try {
-            val response = remoteDataSource.getCemetery(id)
-            responseHandler.handleSuccess(mapper.cemDto.toDomain(response))
-        }catch (e : Exception){
-            Timber.i(e)
-            responseHandler.handleException(e)
-        }
+    override suspend fun unSyncedCemeteries(isSynced : Boolean): List<CemeteryDomain> {
 
-
+        val unsyncedCems = localDataSource.unSyncedCemeteries(isSynced)
+        return mapper.cem.toCemDomainList(unsyncedCems)
     }
 
-    override suspend fun insertGrave(grave: GraveDomain): Long {
-        return localDataSource.insertGrave(mapper.grave.fromDomain(grave))
-    }
 
-    override suspend fun sendGraveToNetwork(grave : GraveDomain) = withContext(Dispatchers.IO) {
+
+
+    //Grave Network
+
+    override suspend fun sendGrave(grave : GraveDomain) = withContext(Dispatchers.IO) {
         try {
-
-            val graveResponse = remoteDataSource.sendGraveToNetwork(mapper.graveDto.fromDomain(grave))
-
+            val graveResponse = remoteDataSource.sendGrave(mapper.graveDto.fromDomain(grave))
             responseHandler.handleSuccess(mapper.graveDto.toDomain(graveResponse))
-
-
         }catch (e : Exception){
             responseHandler.handleException(e)
         }
@@ -135,20 +171,35 @@ class RepositoryImpl  (
         )
     }
 
-    override suspend fun unSyncedCemeteries(mostRecentServerInsert: Long): List<CemeteryDomain> {
 
-        val unsyncedCems = localDataSource.unSyncedCemeteries(mostRecentServerInsert)
-        return mapper.cem.toCemDomainList(unsyncedCems)
-    }
 
-    override suspend fun sendUnsyncedCemeteries(unsyncedCemeteries: List<CemeteryDomain>): Resource<List<CemeteryDomain>> {
+    override suspend fun sendGraveList(graveList: List<GraveDomain>): Resource<List<GraveDomain>> {
         return try {
-
-            val cemListResponse = remoteDataSource.sendUnsyncedCemeteries( mapper.cemDto.toNetworkList(unsyncedCemeteries))
-            responseHandler.handleSuccess(mapper.cemDto.toDomainList(cemListResponse))
+            val graveListResponse = remoteDataSource.sendGraveList(mapper.cemDto.graveDomainListToDto(graveList))
+            responseHandler.handleSuccess(mapper.graveDto.toDomainList(graveListResponse))
         }catch (e : Exception){
-            Timber.i("sendUnSyncedCems() repo function error occured $e")
+            Timber.i(e)
             responseHandler.handleException(e)
+
         }
     }
+
+
+
+
+   //Grave Local
+
+    override suspend fun insertGrave(grave: GraveDomain): Long {
+        return localDataSource.insertGrave(mapper.grave.fromDomain(grave))
+    }
+
+    override suspend fun updateGrave(grave: GraveDomain) {
+        return localDataSource.updateGrave(mapper.grave.fromDomain(grave))
+    }
+
+    override suspend fun unSyncedGraves(isSynced: Boolean): List<GraveDomain> {
+        return mapper.grave.toDomainList(localDataSource.unSyncedGraves(isSynced))
+    }
+
+
 }

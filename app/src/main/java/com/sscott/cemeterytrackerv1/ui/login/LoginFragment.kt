@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.sscott.cemeterytrackerv1.R
 import com.sscott.cemeterytrackerv1.other.Constants
@@ -25,12 +26,6 @@ class LoginFragment : Fragment() {
     private var currentEmail : String? = null
     private var currentPassword : String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if(isLoggedIn()){
-            findNavController().navigate(LoginFragmentDirections.actionGlobalHomeFragment())
-        }
-    }
 
     /*
             Created state
@@ -47,7 +42,10 @@ class LoginFragment : Fragment() {
                 when(it.status){
                     Status.SUCCESS -> {
                         loginProgressBar.visibility = View.GONE
-                        findNavController().navigate(LoginFragmentDirections.actionGlobalHomeFragment())
+                        val options = NavOptions.Builder()
+                            .setPopUpTo(R.id.homeFragment, true)
+                            .build()
+                        findNavController().navigate(LoginFragmentDirections.actionGlobalHomeFragment(), options)
                     }
 
                     Status.ERROR -> {
@@ -76,18 +74,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun isLoggedIn() : Boolean{
-        currentEmail = sharedPreferences.getString(
-            Constants.KEY_LOGGED_IN_EMAIL,
-            Constants.NO_EMAIL
-        ) ?: Constants.NO_EMAIL
-        currentPassword = sharedPreferences.getString(
-            Constants.KEY_PASSWORD,
-            Constants.NO_PASSWORD
-        ) ?: Constants.NO_PASSWORD
 
-        return currentEmail != Constants.NO_EMAIL && currentPassword != Constants.NO_PASSWORD
-    }
 
     private fun authenticateUser() {
 

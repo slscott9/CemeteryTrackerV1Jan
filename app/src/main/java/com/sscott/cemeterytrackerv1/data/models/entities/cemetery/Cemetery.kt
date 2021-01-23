@@ -21,7 +21,8 @@ data class Cemetery(
     val cemSection : String,
     val epochTimeAdded : Long,
     val addedBy : String,
-    val graveCount : Int
+    val graveCount : Int,
+    val isSynced: Boolean
 )
 
 data class CemeteryGraves(

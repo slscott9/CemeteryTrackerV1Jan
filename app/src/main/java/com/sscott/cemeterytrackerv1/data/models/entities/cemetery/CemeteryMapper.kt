@@ -22,7 +22,8 @@ class CemeteryMapper : DomainMapper<Cemetery, CemeteryDomain>{
                     epochTimeAdded = it.epochTimeAdded,
                     addedBy = it.addedBy,
                     graveCount = it.graveCount,
-                    graves = null
+                    graves = null,
+                    isSynced = it.isSynced
             )
         }
     }
@@ -42,7 +43,8 @@ class CemeteryMapper : DomainMapper<Cemetery, CemeteryDomain>{
                 epochTimeAdded = model.epochTimeAdded,
                 addedBy = model.addedBy,
                 graveCount = model.graveCount,
-                graves = null
+                graves = null,
+                isSynced = model.isSynced
         )
     }
 
@@ -61,6 +63,7 @@ class CemeteryMapper : DomainMapper<Cemetery, CemeteryDomain>{
                 epochTimeAdded = domainModel.epochTimeAdded,
                 addedBy = domainModel.addedBy,
                 graveCount = domainModel.graveCount,
+                isSynced = domainModel.isSynced
         )
     }
 
@@ -77,7 +80,8 @@ class CemeteryMapper : DomainMapper<Cemetery, CemeteryDomain>{
                     graveNumber = it.graveNumber,
                     epochTimeAdded = it.epochTimeAdded,
                     addedBy = it.addedBy,
-                    cemeteryId = it.cemeteryId
+                    cemeteryId = it.cemeteryId,
+                    isSynced = it.isSynced
             )
         }
     }
@@ -98,7 +102,8 @@ class CemeteryMapper : DomainMapper<Cemetery, CemeteryDomain>{
                    epochTimeAdded = it.cemetery.epochTimeAdded,
                    addedBy = it.cemetery.addedBy,
                    graveCount = it.cemetery.graveCount,
-                   graves = toDomainGraveList(it.graves)
+                   graves = toDomainGraveList(it.graves),
+                   isSynced = it.cemetery.isSynced
            )
         }
     }
@@ -116,7 +121,8 @@ class CemeteryMapper : DomainMapper<Cemetery, CemeteryDomain>{
                     graveNumber = it.graveNumber,
                     epochTimeAdded = it.epochTimeAdded,
                     addedBy = it.addedBy ,
-                    cemeteryId = it.cemeteryId
+                    cemeteryId = it.cemeteryId,
+                    isSynced = it.isSynced
 
             )
         }

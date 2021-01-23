@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.sscott.cemeterytrackerv1.R
 import com.sscott.cemeterytrackerv1.data.remote.BasicAuthInterceptor
@@ -59,7 +60,10 @@ class RegisterFragment : Fragment() {
 
                         Timber.i(sharedPreferences.getString(KEY_PASSWORD, NO_PASSWORD))
                         Timber.i(sharedPreferences.getString(KEY_LOGGED_IN_EMAIL, NO_EMAIL))
-                        findNavController().navigate(RegisterFragmentDirections.actionGlobalHomeFragment())
+                        val options = NavOptions.Builder()
+                            .setPopUpTo(R.id.homeFragment, true)
+                            .build()
+                        findNavController().navigate(RegisterFragmentDirections.actionGlobalHomeFragment(), options)
                     }
 
                     Status.ERROR -> {

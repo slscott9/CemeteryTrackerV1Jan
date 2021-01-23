@@ -15,6 +15,7 @@ data class CemeteryDomain(
     val epochTimeAdded : Long,
     val addedBy : String,
     val graveCount : Int,
-    val graves : List<GraveDomain>?
+    val graves : List<GraveDomain>?,
+    val isSynced: Boolean
 
 )

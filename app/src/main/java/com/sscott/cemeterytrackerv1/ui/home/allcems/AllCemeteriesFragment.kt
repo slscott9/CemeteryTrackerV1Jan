@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -21,7 +22,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class AllCemeteriesFragment : Fragment() {
 
     private lateinit var binding : FragmentAllCemeteriesBinding
-    private val viewModel : HomeFragmentViewModel by activityViewModels()
+    private val viewModel : AllCemsViewModel by activityViewModels()
+    private lateinit var allCemsListAdapter: AllCemsListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +33,8 @@ class AllCemeteriesFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_all_cemeteries, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
 
+        setupSearch()
+
 
         return binding.root
     }
@@ -39,7 +43,14 @@ class AllCemeteriesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val allCemsListAdapter = AllCemsListAdapter {
+        binding.strAllCems.setOnRefreshListener {
+
+            viewModel.refreshCemsList()
+            binding.strAllCems.isRefreshing = false
+
+        }
+
+        allCemsListAdapter = AllCemsListAdapter {
 
         }
 
@@ -62,9 +73,35 @@ class AllCemeteriesFragment : Fragment() {
                 }
             }
         }
+        viewModel.cemeterySearchResult.observe(viewLifecycleOwner){
+            it?.let {
+                allCemsListAdapter.submitList(it)
+            }
+        }
 
         binding.rvAllCems.adapter = allCemsListAdapter
 
+    }
+
+    private fun setupSearch() {
+        binding.svAllCems.setOnQueryTextListener(
+                object : android.widget.SearchView.OnQueryTextListener,
+                        SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        return true
+                    }
+
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        newText?.let { viewModel.setSearchQuery(it) } //as user types searchQuery it is offered to subscribers which triggers repo.getSearchCemList
+                        return true
+                    }
+                }
+        )
+
+        binding.svAllCems.setOnCloseListener {
+            allCemsListAdapter.submitList(viewModel.getCemsList().value?.data ?: emptyList())
+            true
+        }
     }
 
 

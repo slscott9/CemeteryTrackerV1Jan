@@ -34,6 +34,7 @@ data class Grave(
     val graveNumber : String,
     val epochTimeAdded : Long, //exclude when sending to server so server can add its own epoch time added
     val addedBy : String,
+    val isSynced : Boolean
 
 
 )

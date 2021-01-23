@@ -13,7 +13,8 @@ data class GraveDomain(
     val graveNumber : String,
     val epochTimeAdded : Long,
     val addedBy : String,
-    val cemeteryId : Long
+    val cemeteryId : Long,
+    val  isSynced: Boolean
 )
 
 

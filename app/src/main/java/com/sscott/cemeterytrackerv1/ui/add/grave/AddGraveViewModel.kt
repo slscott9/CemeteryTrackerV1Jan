@@ -35,10 +35,11 @@ class AddGraveViewModel @ViewModelInject constructor(
 
             val id = repository.insertGrave(graveDomain)
 
-            val response = repository.sendGraveToNetwork(graveDomain)
+            val response = repository.sendGrave(graveDomain)
 
             when(response.status){
                 Status.SUCCESS -> {
+                    repository.updateGrave(graveDomain.copy(isSynced = true))
                     _addGraveResponse.postValue(
                         Resource.success(InsertResponse(id = id, message = "")
                         ))

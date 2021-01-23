@@ -24,7 +24,7 @@ class MyCemeteriesFragment : Fragment() {
 
     private lateinit var binding : FragmentMyCemeteriesBinding
     private lateinit var myCemsListAdapter: MyCemsListAdapter
-    private val viewModel : HomeFragmentViewModel by activityViewModels()
+    private val viewModel : MyCemsViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -48,23 +48,9 @@ class MyCemeteriesFragment : Fragment() {
 
         })
 
-
-
         viewModel.myCemeteries.observe(viewLifecycleOwner){
             it?.let {
-                when(it.status){
-                    Status.SUCCESS -> {
-                        binding.pbMyCems.visibility = View.GONE
-                        myCemsListAdapter.submitList(it.data)
-                    }
-                    Status.ERROR -> {
-                        binding.pbMyCems.visibility = View.GONE
-                        Toast.makeText(requireActivity(), it.message, Toast.LENGTH_SHORT).show()
-                    }
-                    Status.LOADING -> {
-                        binding.pbMyCems.visibility = View.VISIBLE
-                    }
-                }
+                myCemsListAdapter.submitList(it)
             }
         }
 
@@ -78,8 +64,6 @@ class MyCemeteriesFragment : Fragment() {
     }
 
     private fun setupSearch() {
-
-
         binding.myCemsSearchView.setOnQueryTextListener(
                 object : android.widget.SearchView.OnQueryTextListener,
                         SearchView.OnQueryTextListener {
@@ -93,6 +77,14 @@ class MyCemeteriesFragment : Fragment() {
                     }
                 }
         )
+
+        /*
+            user exits search view submit all local cems back into adapter list
+         */
+        binding.myCemsSearchView.setOnCloseListener {
+            myCemsListAdapter.submitList(viewModel.getCemsList().value)
+            true
+        }
     }
 
 

@@ -11,23 +11,37 @@ import retrofit2.Response
 
 interface RemoteDataSource {
 
+    //Authentication
+
     suspend fun login(userDto: UserDto) : UserDto
 
     suspend fun register(userDto: UserDto) : UserDto
 
+    //Cemetery
+
     suspend fun allCemeteries() : List<CemeteryDto>
 
-     suspend fun myCemeteries(userName : String) : List<CemeteryDto>
+    suspend fun myCemeteries(userName : String) : List<CemeteryDto>
 
-     suspend fun getCemetery(id : Long) : CemeteryDto
+    suspend fun getCemetery(id : Long) : CemeteryDto
 
-    suspend fun sendCemToNetwork(cemeteryDto: CemeteryDto) : CemeteryDto
+    suspend fun sendCem(cemeteryDto: CemeteryDto) : CemeteryDto
+
+    suspend fun sendCemList(cemList : List<CemeteryDto>) : List<CemeteryDto>
+
+    suspend fun searchCemeteries(query : String) : List<CemeteryDto>
+
+
+
+
+    //Grave
 
     suspend fun getMostRecentServerInsert() : Long
 
-    suspend fun sendUnsyncedCemeteries(unsyncedCemeteries : List<CemeteryDto>) : List<CemeteryDto>
+    suspend fun sendGraveList(graveList : List<GraveDto>) : List<GraveDto>
 
-    suspend fun sendGraveToNetwork(grave : GraveDto) : GraveDto
+    suspend fun sendGrave(graveDto : GraveDto) : GraveDto
+
 
 
 }

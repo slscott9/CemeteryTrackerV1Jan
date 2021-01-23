@@ -25,63 +25,61 @@ class HomeFragmentViewModel @ViewModelInject constructor(
 //    val myCems : LiveData<Resource<List<CemeteryDomain>>> = _myCems
 
 
-    private val userName = sharedPreferences.getString(Constants.KEY_LOGGED_IN_USERNAME, Constants.NO_USERNAME) ?: ""
-
-
-    val myCemeteries = MutableLiveData<Resource<List<CemeteryDomain>>>()
-    val allCemeteries = MutableLiveData<Resource<List<CemeteryDomain>>>()
-
-    init {
-        refreshCemsList()
-    }
-
-    private val searchChannel = ConflatedBroadcastChannel<String>()
-    val cemeterySearchResult = searchChannel.asFlow()
-            .flatMapLatest { searchQuery -> repository.getCemsFromSearch(searchQuery) }.asLiveData()
-
-    fun setSearchQuery(searchQuery : String){
-        searchChannel.offer(searchQuery)
-    }
-
-    fun refreshCemsList() {
-        viewModelScope.launch {
-
-            myCemeteries.postValue(Resource.loading(null))
-            allCemeteries.postValue(Resource.loading(null))
-
-            repository.myCemeteries(userName)
-                    .catch { e ->
-                        Timber.i(e)
-                        myCemeteries.postValue(Resource.error("Check network connection", null))
-                    }
-                    .collect { myCems -> myCemeteries.postValue(Resource.success(myCems)) }
-
-            repository.allCemeteries()
-                    .catch { e ->
-                        Timber.i(e)
-                        allCemeteries.postValue(Resource.error("Check network connection", null)) }
-                    .collect { allCems -> allCemeteries.postValue(Resource.success(allCems)) }
-
-
-
-
-        }
-    }
-
-//    repository.myCemeteries(userName)
-//    .catch { e -> myCems.postValue(Resource.error("Check network connection", null)) }
-//    .collect { cemList -> myCems.postValue(Resource.success(cemList)) }
-
-
-//    fun refreshCemeteries() {
+//    private val userName = sharedPreferences.getString(Constants.KEY_LOGGED_IN_USERNAME, Constants.NO_USERNAME) ?: ""
+//
+//    val myCemeteries =
+//            repository.allLocalCems().asLiveData()
+//
+//    val _allCemeteries = MutableLiveData<Resource<List<CemeteryDomain>>>().asFlow()
+//
+//
+//    val allCemeteries = MutableLiveData<Resource<List<CemeteryDomain>>>()
+//
+//    init {
+//        refreshCemsList()
+//    }
+//
+//    private val searchChannel = ConflatedBroadcastChannel<String>()
+//    val cemeterySearchResult = searchChannel.asFlow()
+//            .flatMapLatest { searchQuery -> repository.getCemsFromSearch(searchQuery) }.asLiveData()
+//
+//
+//
+//    fun setSearchQuery(searchQuery : String){
+//        searchChannel.offer(searchQuery)
+//    }
+//
+//    fun refreshCemsList() {
 //        viewModelScope.launch {
 //
-//            Timber.i("UserName is $userName")
-//            _allCems.value = repository.allCemeteries()
-//            _myCems.value = repository.myCemeteries(userName)
+//            allCemeteries.postValue(Resource.loading(null))
+//
+//            repository.allCemeteries()
+//                    .catch { e ->
+//                        Timber.i(e)
+//                        allCemeteries.postValue(Resource.error("Check network connection", null)) }
+//                    .collect { allCems -> allCemeteries.postValue(Resource.success(allCems)) }
+//
+//
+//
 //
 //        }
 //    }
+//
+////    repository.myCemeteries(userName)
+////    .catch { e -> myCems.postValue(Resource.error("Check network connection", null)) }
+////    .collect { cemList -> myCems.postValue(Resource.success(cemList)) }
+//
+//
+////    fun refreshCemeteries() {
+////        viewModelScope.launch {
+////
+////            Timber.i("UserName is $userName")
+////            _allCems.value = repository.allCemeteries()
+////            _myCems.value = repository.myCemeteries(userName)
+////
+////        }
+////    }
 
 
 }
