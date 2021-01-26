@@ -6,14 +6,10 @@ import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
-import android.location.SettingInjectorService
-import android.net.ConnectivityManager
-import android.net.Network
 import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
 import android.provider.Settings
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.ArrayAdapter
@@ -21,42 +17,36 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.setupWithNavController
 import androidx.transition.TransitionInflater
 import com.google.android.material.snackbar.Snackbar
 import com.sscott.cemeterytrackerv1.BuildConfig
 import com.sscott.cemeterytrackerv1.R
 import com.sscott.cemeterytrackerv1.data.models.domain.CemeteryDomain
 import com.sscott.cemeterytrackerv1.databinding.FragmentAddCemeteryBinding
-import com.sscott.cemeterytrackerv1.location.ForeGroundLocationService
+import com.sscott.cemeterytrackerv1.location.BoundLocationService
 import com.sscott.cemeterytrackerv1.other.Constants
 import com.sscott.cemeterytrackerv1.other.Status
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_add_cemetery.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.lang.Exception
 import java.time.OffsetDateTime
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 
-private const val REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE = 34
+private const val REQUEST_LOCATION_PERMISSION_CODE = 34
 
 @AndroidEntryPoint
 class AddCemeteryFragment : Fragment() {
 
     private lateinit var binding: FragmentAddCemeteryBinding
-    private var foregroundLocationService: ForeGroundLocationService? = null
-    private lateinit var foregroundBroadcastReceiver: ForegroundBroadcastReceiver
-    private var foregroundOnlyLocationServiceBound = false
+    private var boundLocationService: BoundLocationService? = null
+    private lateinit var localBroadcastReceiver: ForegroundBroadcastReceiver
+    private var isLocationServiceBound = false
     private lateinit var geoCoder: Geocoder
     private val viewModel: AddCemViewModel by viewModels()
 
@@ -68,15 +58,15 @@ class AddCemeteryFragment : Fragment() {
 
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
             Timber.i("onServiceConnected called For foregroundOnlyServiceConnection")
-            val binder = service as ForeGroundLocationService.LocalBinder
-            foregroundLocationService = binder.service
-            foregroundOnlyLocationServiceBound = true
+            val binder = service as BoundLocationService.LocalBinder //binder returned from service is how service is instantiated to get access to its methods
+            boundLocationService = binder.service
+            isLocationServiceBound = true
         }
 
         override fun onServiceDisconnected(name: ComponentName) {
             Timber.i("onServiceDisconnected called For foregroundOnlyServiceConnection")
-            foregroundLocationService = null
-            foregroundOnlyLocationServiceBound = false
+            boundLocationService = null
+            isLocationServiceBound = false
         }
     }
 
@@ -88,7 +78,7 @@ class AddCemeteryFragment : Fragment() {
         )
         sharedElementEnterTransition = animation
         sharedElementReturnTransition = animation
-        foregroundBroadcastReceiver = ForegroundBroadcastReceiver()
+        localBroadcastReceiver = ForegroundBroadcastReceiver()
     }
 
     override fun onCreateView(
@@ -172,7 +162,7 @@ class AddCemeteryFragment : Fragment() {
             Timber.i("cemAddress button clicked")
             if (foregroundPermissionApproved()) {
                 Timber.i("foreground permission is approved calling subscribeToLocationUpdates")
-                foregroundLocationService?.subscribeToLocationUpdates()
+                boundLocationService?.subscribeToLocationUpdates()
                 binding.pbLocation.visibility = View.VISIBLE
             } else {
                 Timber.i("foregroundPermission is not approved calling requestForegroundPermission()")
@@ -185,31 +175,32 @@ class AddCemeteryFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        val serviceIntent = Intent(requireActivity(), ForeGroundLocationService::class.java)
+        val serviceIntent = Intent(requireActivity(), BoundLocationService::class.java)
+        //BIND_AUTO_CREATE - automatically creates service as long as the binding exists
         activity?.bindService(serviceIntent, foregroundOnlyServiceConnection, Context.BIND_AUTO_CREATE) //keeps connection open until explicitly removed
     }
 
     override fun onResume() {
         super.onResume()
         LocalBroadcastManager.getInstance(requireContext()).registerReceiver(
-                foregroundBroadcastReceiver,
-                IntentFilter(ForeGroundLocationService.ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST)
+                localBroadcastReceiver,
+                IntentFilter(BoundLocationService.ACTION_BOUND_LOCATION_BROADCAST)
         )
     }
 
     override fun onPause() {
         LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(
-                foregroundBroadcastReceiver
+                localBroadcastReceiver
         )
         super.onPause()
 
     }
 
     override fun onStop() {
-        foregroundLocationService?.unsubscribeToLocationUpdates()
-        if (foregroundOnlyLocationServiceBound) {
+        boundLocationService?.unsubscribeToLocationUpdates()
+        if (isLocationServiceBound) {
             activity?.unbindService(foregroundOnlyServiceConnection)
-            foregroundOnlyLocationServiceBound = false
+            isLocationServiceBound = false
         }
         super.onStop()
     }
@@ -218,7 +209,7 @@ class AddCemeteryFragment : Fragment() {
     private inner class ForegroundBroadcastReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) { //onReceive() creates a new thread then is moved to background
             val location = intent?.getParcelableExtra<Location>(
-                    ForeGroundLocationService.EXTRA_LOCATION
+                    BoundLocationService.EXTRA_LOCATION
             )
             Timber.i(location.toString())
 
@@ -275,7 +266,7 @@ class AddCemeteryFragment : Fragment() {
                         ActivityCompat.requestPermissions(
                                 requireActivity(),
                                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                                REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
+                                REQUEST_LOCATION_PERMISSION_CODE
                         )
                     }.show()
 
@@ -283,7 +274,7 @@ class AddCemeteryFragment : Fragment() {
             ActivityCompat.requestPermissions(
                     requireActivity(),
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE
+                    REQUEST_LOCATION_PERMISSION_CODE
             )
         }
     }
@@ -294,12 +285,12 @@ class AddCemeteryFragment : Fragment() {
             grantResults: IntArray
     ) {
         when (requestCode) {
-            REQUEST_FOREGROUND_ONLY_PERMISSIONS_REQUEST_CODE -> when {
+            REQUEST_LOCATION_PERMISSION_CODE -> when {
                 grantResults.isEmpty() -> {
 
                 }
                 grantResults[0] == PackageManager.PERMISSION_GRANTED -> {
-                    foregroundLocationService?.subscribeToLocationUpdates()
+                    boundLocationService?.subscribeToLocationUpdates()
                 }
             }
             else -> {

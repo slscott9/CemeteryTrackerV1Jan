@@ -16,11 +16,11 @@ import java.util.concurrent.TimeUnit
 
 const val TAG = "LocationService"
 
-class ForeGroundLocationService : Service()  {
+class BoundLocationService : Service()  {
 
     private var configurationChange = false
 
-    private var serviceRunningInForeground = false
+    private var isBound = false
 
     private val localBinder = LocalBinder()
 
@@ -52,9 +52,8 @@ class ForeGroundLocationService : Service()  {
 
                 if (locationResult?.lastLocation != null) {
 
-                    //This is where you save the location in db
                     currentLocation = locationResult.lastLocation
-                    val intent = Intent(ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST)
+                    val intent = Intent(ACTION_BOUND_LOCATION_BROADCAST)
                     intent.putExtra(EXTRA_LOCATION, currentLocation)
                     LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
                 } else {
@@ -64,9 +63,11 @@ class ForeGroundLocationService : Service()  {
         }
     }
 
+    //onBind() called from AddCemFragment - When using onBind() onStartCommand is not called - must manually unbind the service
+
     @SuppressLint("MissingPermission")
     fun subscribeToLocationUpdates() {
-        startService(Intent(applicationContext, ForeGroundLocationService::class.java))
+        startService(Intent(applicationContext, BoundLocationService::class.java))
         try{
             fusedLocationProviderClient.requestLocationUpdates(
                 locationRequest, locationCallback, Looper.myLooper()
@@ -95,7 +96,7 @@ class ForeGroundLocationService : Service()  {
 
     override fun onBind(p0: Intent?): IBinder? {
         stopForeground(true)
-        serviceRunningInForeground = false
+        isBound = false
         configurationChange = false
         return localBinder
 
@@ -107,7 +108,7 @@ class ForeGroundLocationService : Service()  {
         // MainActivity (client) returns to the foreground and rebinds to service, so the service
         // can become a background services.
         stopForeground(true)
-        serviceRunningInForeground = false
+        isBound = false
         configurationChange = false
         super.onRebind(intent)
     }
@@ -115,7 +116,7 @@ class ForeGroundLocationService : Service()  {
     override fun onUnbind(intent: Intent?): Boolean {
 
         if(!configurationChange){
-            serviceRunningInForeground = true
+            isBound = true
         }
         return true
     }
@@ -124,13 +125,13 @@ class ForeGroundLocationService : Service()  {
 
 
     inner class LocalBinder : Binder() {
-        internal val service: ForeGroundLocationService
-            get() = this@ForeGroundLocationService
+        internal val service: BoundLocationService
+            get() = this@BoundLocationService
     }
 
     companion object {
-        internal const val ACTION_FOREGROUND_ONLY_LOCATION_BROADCAST =
-            "$PACKAGE_NAME.action.FOREGROUND_ONLY_LOCATION_BROADCAST"
+        internal const val ACTION_BOUND_LOCATION_BROADCAST =
+            "$PACKAGE_NAME.action.ACTION_BOUND_LOCATION_BROADCAST"
 
         internal const val EXTRA_LOCATION = "$PACKAGE_NAME.extra.LOCATION"
 
